@@ -1,0 +1,713 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="keyword"  content="">
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <title>
+        
+          Joel的博客 | Joel&#39;s Blog
+        
+    </title>
+
+    <link rel="canonical" href="http://kaijun.rocks/page/2/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/hux-blog.min.css">
+
+    <!-- Pygments Highlight CSS -->
+    <link rel="stylesheet" href="/css/highlight.css">
+
+    <!-- Custom Fonts -->
+    <!-- <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="https://cdn.staticfile.org/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+</head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Joel&#39;s Blog</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+
+                    
+
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/about/">About</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/archives/">Archives</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/tags/">Tags</a>
+                        </li>
+                        
+                    
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+    <!-- Main Content -->
+    <!-- Page Header -->
+<header class="intro-header" style="background-image: url('/img/home-bg.jpg')">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 ">
+                <div class="site-heading">
+                    <h1>Joel&#39;s Blog</h1>
+                    <!--<hr class="small">-->
+                    <span class="subheading">holy fuck!</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+
+
+<!-- Main Content -->
+<div class="container">
+    <div class="row">
+        
+
+<!-- USE SIDEBAR -->
+    <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-1
+                col-md-8 col-md-offset-1
+                col-sm-12
+                col-xs-12
+                post-container
+            ">
+            
+                <!-- Main Content -->
+
+
+<div class="post-preview">
+
+    <a href="/2018/03/01/2018-03-01/">
+        <h2 class="post-title">
+            2018-03-01
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            
+EOF
+...
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Joel on
+        2018-03-01
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/2018/02/28/2018-02-28/">
+        <h2 class="post-title">
+            2018-02-28
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            滴，今日份健身打卡。
+深蹲加硬拉好累啊，卧推好累啊。
+说好的博客只写了一半。
+我要戒了吃鸡。
+说到做到。
+
+EOF
+...
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Joel on
+        2018-02-28
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/2018/02/28/JS-extend/">
+        <h2 class="post-title">
+            从extend看JS继承
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            PS：前置知识：原型链
+碎碎念说到继承，第一印象就是红宝书里的各种方法，原型式继承、组合继承、寄生继承balabala。
+初学JS的时候看到继承内心是崩溃的，人家py、java一个关键字就搞定了的东西你怎么能玩出这么多花样的。
+其实这是语言设计层面的问题，JS并没有像java那种严格的面向对象系统，但是。。。uc
+我们知道面向对象系统其实是可以用数据+过程的方式实现的（没错我说的就是SI......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Joel on
+        2018-02-28
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/2018/02/26/2018-02-26/">
+        <h2 class="post-title">
+            2018-02-26
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            上班第一天，体验有两个。。
+
+跑路好累，大概六十多分钟。。。
+吃饭是个问题。。周围全是卖面的。没什么正常吃的。
+
+技术方面的感想：
+
+自己好像还是很菜的。。。
+基础设施都是搭建好的，那么我有没有必要去了解这些东西呢。。。
+
+明明工作时间没多久啊。。就七个小时，但是我早上七点起床，晚上七点半才能到学校。。。
+那么还想健身，还要做毕设，自己还要学习，还沉迷吃鸡，可恶。
+今天过了一遍pug的......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Joel on
+        2018-02-26
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/2018/02/25/2018-02-25/">
+        <h2 class="post-title">
+            2018-02-25
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            明天上班了。
+心情复杂。。
+说不上是焦虑。。。
+也说不上是期待。。。。
+总之很奇怪就对了。。。。。
+没有空余时间了啊。。。。。。
+还要做毕设。。。。。
+也想有时间健身。。。。
+要在路上花好久。。。
+到底是考研还是直接工作呢。。
+反正工资提高一点来谈吧。
+可恶
+
+EOF
+...
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Joel on
+        2018-02-25
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/2018/02/23/2018-02-23/">
+        <h2 class="post-title">
+            2018-02-23
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            今天怼了一天的开题报告，然而，似乎，进度没什么变化。。
+明天去学校了，下周一开始上班。
+跟老爸达成共识，如果实习完工资谈崩了就考研去。。本来开开心心的。。。
+结果后来跟小伙伴聊了一下，发现现实好像很残酷。
+还是自己太菜了啊。
+慢慢来吧，反正是有退路了。
+虽然不太光彩。
+原来逃避可耻但有用是真的。
+
+EOF
+...
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Joel on
+        2018-02-23
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/2018/02/22/JS-class/">
+        <h2 class="post-title">
+            JS-class
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            本文探究ES6class语法糖的一些行为及babel实现。
+PS：关于ES5继承的细节不在本文讨论范围
+PPS：最好有ES5的面向对象知识
+what the hell is classclass是一个语法糖，好不好吃就要看各位的口味了，毕竟甲之蜜糖乙之砒霜。
+既然是语法糖，那么就可以用现有的语言特性实现它（就是ES5的原型式继承），本文中我们直接分析babel编译出的ES5代码。
+坠简单滴......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Joel on
+        2018-02-22
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/2018/02/22/JB-license-server/">
+        <h2 class="post-title">
+            JB全家桶本地license server
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            上午想学习，结果发现webstorm的激活码到期了。
+可恶明明还有一学期才毕业啊。
+鼓捣了好久也没能更新激活码，正版太贵了。
+一怒之下用盗版（穷
+然而网上的攻略大多是license server，这意味着没网的时候就不能用。
+使用这个docker镜像可以直接在本地起一个server，这样就不用担心没网。
+https://hub.docker.com/r/qinjiangbo/idea-l......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Joel on
+        2018-02-22
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/2018/02/21/2018-02-21/">
+        <h2 class="post-title">
+            2018-02-21
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            春节过完啦。
+今天居然堵车，搞到现在才到家。。
+断更好久了。貌似和总管同步断更（笑
+开题报告还没写。
+万万没想到大学快结束时还有被作业没写完支配的恐惧。
+明天写开题报告，怼出一份js里calss语法糖的文章，把红海行动看了。
+早起是不可能早起的。
+话说我哥25岁就被追着相亲了。。。
+这也太恐怖了。
+。。。
+就酱。
+good night.
+
+EOF
+...
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Joel on
+        2018-02-21
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/2018/02/14/2018-02-14/">
+        <h2 class="post-title">
+            2018-02-14
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            昨天玩到很晚啊，跟小伙伴们。
+村里人真会玩，十二点嚷嚷着要去唱歌。
+我才不去。。。我等老人家经不起折腾，养生还来不及呢。
+今天莫名情绪低落，丧得很。
+要过年了可是一点都高兴不起来。
+并不能很好的控制自己的情绪。
+情绪化真的很不好啊，可恶。
+突然不太想谈恋爱，emmmmm，开始怀念单身。
+可能是要注孤生吧。
+情人节，并不是很美好啊。
+开始思索人生。
+开始反思自己。
+却始终不得要领。
+愈发......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Joel on
+        2018-02-14
+    </p>
+
+</div>
+<hr>
+
+
+
+<!-- Pager -->
+
+<ul class="pager">
+    
+        <li class="previous">
+            <a href="/">&larr; Newer Posts</a>
+        </li>
+    
+    
+        <li class="next">
+            <a href="/page/3/">Older Posts &rarr;</a>
+        </li>
+    
+</ul>
+
+
+
+                <!-- 如果开启评论功能 -->
+                
+
+            </div>
+    <!-- Sidebar Container -->
+            <div class="
+                col-lg-3 col-lg-offset-0
+                col-md-3 col-md-offset-0
+                col-sm-12
+                col-xs-12
+                sidebar-container
+            ">
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Short About -->
+                <section class="visible-md visible-lg">
+                    <hr><h5><a href="/about/">ABOUT ME</a></h5>
+                    <div class="short-about">
+
+                        
+                            <img src="//img/avatar.jpg" />
+                        
+
+                        
+                            <p>我要成为魔法师!</p>
+                        
+
+                        <!-- SNS Link -->
+                        <ul class="list-inline">
+                            
+                            
+                            
+
+                            
+
+                            
+
+                            
+                            
+                            
+                            
+                        </ul>
+                    </div>
+                </section>
+                
+                <!-- Friends Blog -->
+                
+                <hr>
+                <h5>FRIENDS</h5>
+                <ul class="list-inline">
+
+                    
+                </ul>
+                
+            </div>
+        
+    </div>
+</div>
+
+
+    <!-- Footer -->
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                
+                
+                
+
+                
+
+                
+
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Joel&#39;s Blog 2018 
+                    <br>
+                    Theme by <a href="http://huangxuan.me">Hux</a> 
+                    <span style="display: inline-block; margin: 0 5px;">
+                        <i class="fa fa-heart"></i>
+                    </span> 
+                    Ported by <a href="http://blog.kaijun.rocks">Kaijun</a> | 
+                    <iframe
+                        style="margin-left: 2px; margin-bottom:-5px;"
+                        frameborder="0" scrolling="0" width="91px" height="20px"
+                        src="https://ghbtns.com/github-btn.html?user=kaijun&repo=hexo-theme-huxblog&type=star&count=true" >
+                    </iframe>
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/hux-blog.min.js"></script>
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- 
+     Because of the native support for backtick-style fenced code blocks 
+     right within the Markdown is landed in Github Pages, 
+     From V1.6, There is no need for Highlight.js, 
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0  
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/    
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("http://kaijun.rocks/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("https://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+
+
+
+<!-- Baidu Tongji -->
+
+
+<!-- Side Catalog -->
+
+
+
+
+
+<!-- Image to hack wechat -->
+<img src="http://kaijun.rocks/img/icon_wechat.png" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>

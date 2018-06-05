@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="keyword"  content="">
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <title>
+        
+          DNS: internet的目录服务 - Joel的博客 | Joel&#39;s Blog
+        
+    </title>
+
+    <link rel="canonical" href="http://kaijun.rocks/2018/02/10/computer-networking-1/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/hux-blog.min.css">
+
+    <!-- Pygments Highlight CSS -->
+    <link rel="stylesheet" href="/css/highlight.css">
+
+    <!-- Custom Fonts -->
+    <!-- <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="https://cdn.staticfile.org/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+</head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Joel&#39;s Blog</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+
+                    
+
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/about/">About</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/archives/">Archives</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/tags/">Tags</a>
+                        </li>
+                        
+                    
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+    <!-- Main Content -->
+    
+<!-- Image to hack wechat -->
+<!-- <img src="http://kaijun.rocks/img/icon_wechat.png" width="0" height="0"> -->
+<!-- <img src="{{ site.baseurl }}/{% if page.header-img %}{{ page.header-img }}{% else %}{{ site.header-img }}{% endif %}" width="0" height="0"> -->
+
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        background-image: url('/img/home-bg.jpg')
+    }
+</style>
+<header class="intro-header" >
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <div class="tags">
+                        
+                          <a class="tag" href="/tags/#DNS" title="DNS">DNS</a>
+                        
+                          <a class="tag" href="/tags/#URL" title="URL">URL</a>
+                        
+                          <a class="tag" href="/tags/#分布式数据库" title="分布式数据库">分布式数据库</a>
+                        
+                    </div>
+                    <h1>DNS: internet的目录服务</h1>
+                    <h2 class="subheading"></h2>
+                    <span class="meta">
+                        Posted by Joel on
+                        2018-02-10
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+    <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                <h2 id="一道经典的面试题"><a href="#一道经典的面试题" class="headerlink" title="一道经典的面试题"></a>一道经典的面试题</h2><p>从你在浏览器输入URL并按下回车到页面完整呈现都发生了什么？</p>
+<p>这个问题可以回答的很复杂，gayhub上甚至有一个专门的仓库用来回答这个问题，从按下键盘的系统中断响应一直分析到浏览器如何解析渲染HTML文档。</p>
+<p>我也准备在不断的学习过程中一步步地回答这个问题，当然我们不用从系统中断开始分析（笑</p>
+<p>这篇文章将分析：DNS服务是如何将URL转换为IP地址的</p>
+<h2 id="什么是DNS"><a href="#什么是DNS" class="headerlink" title="什么是DNS"></a>什么是DNS</h2><p>Domain Name System，简称DNS，译名：域名系统。</p>
+<p>DNS有两重含义：</p>
+<ol>
+<li>一个由分层的DNS服务器形成的分布式数据库</li>
+<li>一个使得主机能够查询分布式数据库的应用层协议</li>
+</ol>
+<p>关键词：分布式数据库，分层，应用层协议。</p>
+<h2 id="为什么要有DNS"><a href="#为什么要有DNS" class="headerlink" title="为什么要有DNS"></a>为什么要有DNS</h2><p>回到开头提到的问题，我们输入了URL，那么URL是什么？</p>
+<p>答：统一资源定位符，标记了internet中一个对象。一个对象只是一个文件，对应一个资源，如一份HTML文件，一张png图片，一段视频等。</p>
+<p><img src="./img1.jpg" style="width:300px; height: 300px"></p>
+<p>举一个栗子🌰：<br><code>http://www.somesite.com/somepath/somepic.png</code></p>
+<p>这是一个URL，由两部分组成:</p>
+<ol>
+<li>主机名 <code>www.somesite.com</code></li>
+<li>路径 <code>/somepath/somepic.png</code></li>
+</ol>
+<p>这个URL标记了一张存储于<code>www.somesite.com</code>上、路径为<code>/somepath/somepic.png</code>的图片。</p>
+<p>我们想要请求这个URL以下载这张图片，那么问题来了。</p>
+<p>对于我们人类来说这样的标记很好记，然而对于计算机来说，主机名几乎没有提供关于该主机在intenet中位置的信息。</p>
+<p>并且因为主机名由不定长的字母和数字组成，路由器很难处理。</p>
+<p>因此，主机可以使用IP地址进行标识。</p>
+<p>IP地址（v4）由四个字节组成，并且有着严格的层次结构，当我们从左往右扫描IP地址，我们能得到越来越具体的该主机在internet中位置的信息。</p>
+<p>对人类来说这个四字节的地址是很难记忆的。</p>
+<p>而DNS提供了将主机名转换为其背后的IP地址的服务。</p>
+<h2 id="DNS提供的服务"><a href="#DNS提供的服务" class="headerlink" title="DNS提供的服务"></a>DNS提供的服务</h2><p>当我们在浏览器的地址栏输入<code>http://www.somesite.com/somepath/somepic.png</code>并按下回车，我们想要将一个HTTP请求报文发送到Web服务器<code>www.somesite.com</code>，那么我们必须提供该服务器的IP地址，这时：</p>
+<ul>
+<li>同一台主机上运行着DNS应用的客户端</li>
+<li>浏览器从URL中取出主机名，传递给DNS应用的客户端</li>
+<li>DNS客户向DNS服务器发送一个包含主机名的请求</li>
+<li>DNS客户最终收到一份回答报文，其中包含目的主机的IP地址，并将该IP地址传给浏览器</li>
+<li>浏览器向位于该IP地址80端口的HTTP服务器进程发起一个TCP连接</li>
+</ul>
+<p>这就是DNS提供的主机名到IP地址转换的功能</p>
+<p>除此以外DNS还提供以下服务：</p>
+<ul>
+<li><strong><em>主机别名</em></strong>。例如一台主机的主机名很难记，例如<code>oh-my-holy-shit.somename.com</code>，但它可能有一个或多个好记的别名(holyshit.com)，这种情况下<code>oh-my-holy-shit.somename.com</code>称为规范主机名，DNS提供从别名获取规范主机名和IP地址的服务。</li>
+<li><strong><em>邮件服务器别名</em></strong>。当我们日常使用邮箱时，例如<a href="mailto:`123456@qq.com" target="_blank" rel="noopener">`123456@qq.com</a><code>，真实的邮箱服务器主机名可能比</code>qq.com<code>复杂到不知道哪里去了👓，此时的</code>qq.com`就是一个邮箱服务器的别名。DNS为电子邮件程序提供从别名到规范主机名的服务。</li>
+<li><strong><em>负载分配</em></strong>。一个IP地址的集合可能与一个规范主机名对应，DNS数据库中存储着这些IP地址，当查询该主机名的IP地址时DNS选择一个IP返回，这样就在这些服务器间分配了负载。</li>
+</ul>
+<blockquote>
+<p>你可能意识到了，访问<code>qq.com</code>得到的并不是一个邮件服务器，那么是DNS对邮件服务和Web服务做了区分吗？后文将回答这个问题。</p>
+</blockquote>
+<h2 id="DNS工作机理概述"><a href="#DNS工作机理概述" class="headerlink" title="DNS工作机理概述"></a>DNS工作机理概述</h2><p>我们主要考虑从主机名获取IP地址的服务</p>
+<p>从上文浏览器请求图片的<a href="#DNS提供的服务">例子</a>可以看出，站在浏览器的角度，DNS是一个提供简单的转换服务的黑盒，然而这个黑盒内部非常复杂。</p>
+<h3 id="分布式、层次数据库"><a href="#分布式、层次数据库" class="headerlink" title="分布式、层次数据库"></a>分布式、层次数据库</h3><p>在我们对DNS的定义中提到：DNS是一个由分层的DNS服务器形成的分布式数据库。</p>
+<h4 id="为什么分布式"><a href="#为什么分布式" class="headerlink" title="为什么分布式"></a>为什么分布式</h4><p>如今internet上有不计其数的主机，将它们的主机名与IP地址的映射统一管理，显然是不现实的，在维护、性能、硬件上有巨大的挑战，而且一旦出现故障整个internet都会崩溃。</p>
+<h4 id="何为层次式"><a href="#何为层次式" class="headerlink" title="何为层次式"></a>何为层次式</h4><p><img src="./img2.jpg"></p>
+<p>上图中自顶向下三层，分别是：</p>
+<ol>
+<li><strong><em>根DNS服务器</em></strong>。级别最高的DNS服务器，返回顶级域（如<code>com</code>）的TLD服务器地址。根域名服务器地址的数量被限制为13个（标号为A到M），但实际上每个根域名服务器都是一个冗余服务器的网络。截至2017年11月，全球共有800台根域名服务器在运行。</li>
+<li><strong><em>顶级域DNS服务器</em></strong>。（Top-Level Domain，TLD）。负责顶级域名如com、org、net、edu、gov以及所有的国家顶级域名如cn、jp、uk。</li>
+<li><strong><em>权威DNS服务器</em></strong>。假设你成立了一家公司，公司的官网是<code>holyshit.com</code>。为了让人们能够用<code>holyshit.com</code>这一域名访问你的网站，你可以自己架设一台DNS服务器，其中保存了<code>holyshit.com</code>到IP地址的映射，这台服务器就是权威DNS服务器；你也可以付钱将这一映射保存到某个服务商提供的权威DNS服务器。</li>
+</ol>
+<p>DNS服务使用大量的DNS服务器，它们以分层的方式组织，分布在世界各地。</p>
+<p>全世界的主机名与IP地址的映射分布在这些DNS服务器上，并不存在一台保存了所有映射的服务器。</p>
+<h3 id="本地DNS服务器"><a href="#本地DNS服务器" class="headerlink" title="本地DNS服务器"></a>本地DNS服务器</h3><p>这里的本地是指离你的主机足够近（通常几台路由器的距离），而不是运行在你的端系统。</p>
+<p>每个ISP（大学，公司，居民区）都有一台本地DNS服务器，当某台主机发起DNS请求，该请求被发往本地DNS服务器，本地DNS服务器起一个代理的作用，然后本地DNS服务器将请求转发到上文所说的DNS服务器层次结构中。</p>
+<h3 id="一个具体的栗子🌰"><a href="#一个具体的栗子🌰" class="headerlink" title="一个具体的栗子🌰"></a>一个具体的栗子🌰</h3><p><img src="./img3.png"><br>假设我们要访问<code>holyshit.com</code>，负责该主机名的权威DNS服务器为<code>dns.holyshit.com</code>。</p>
+<p>DNS查询的步骤分解如下：</p>
+<ol>
+<li>请求主机向本地DNS服务器发送一个DNS查询报文，报文中包含要转换的主机名<code>holyshit.com</code></li>
+<li>本地DNS服务器将该报文转发到根DNS服务器</li>
+<li>根DNS服务器注意到<code>com</code>前缀，向本地DNS服务器返回负责<code>com</code>前缀的TLD的IP地址列表</li>
+<li>本地DNS服务器从返回的IP列表中选择一个，向该TLD服务器发送查询报文</li>
+<li>该TLD服务器查询它的映射表，返回<code>holyshit.com</code>对应的权威DNS服务器IP地址，这个权威DNS服务器就是<code>dns.holyshit.com</code></li>
+<li>最后本地DNS服务器向<code>dns.holyshit.com</code>发送重发查询报文</li>
+<li><code>dns.holyshit.com</code>用<code>holyshit.com</code>的IP地址作为响应。</li>
+<li>本地DNS服务器向请求主机返回目标主机的IP地址</li>
+</ol>
+<h3 id="迭代查询与递归查询"><a href="#迭代查询与递归查询" class="headerlink" title="迭代查询与递归查询"></a>迭代查询与递归查询</h3><p>上节的例子中，我们发现步骤二到步骤七，查询均由本地DNS服务器发出，共执行三次查询（实践中可能更多），每查询一次得到的结果都更加接近目标的IP地址。</p>
+<p>每一次执行查询的主体都是本地DNS服务器，这种查询是<code>迭代查询</code>。</p>
+<p>至于递归查询，看一张图就一目了然了。<br><img src="img4.png"></p>
+<p>查询由主机发出，层层深入，在得到结果后层层返回，与递归的行为非常类似，因而称为递归查询。</p>
+<p>上节的例子中从请求主机发往本地DNS服务器的查询就是一次递归查询。</p>
+<h3 id="DNS缓存"><a href="#DNS缓存" class="headerlink" title="DNS缓存"></a>DNS缓存</h3><p>DNS广泛使用了缓存技术，在一个请求链中，当某DNS服务器收到了一个DNS应答（例如，主机名到地址的映射），它能将该应答存储在本地存储器中，这样当下一个请求该主机名的请求到来时它就能提供正确的IP地址，即使它并不是该主机名的权威服务器。</p>
+<p>缓存保存的时间一般为两天。</p>
+<p>本地DNS也可以保存TLD服务器的地址从而绕过根DNS服务器。</p>
+<h2 id="DNS记录和报文"><a href="#DNS记录和报文" class="headerlink" title="DNS记录和报文"></a>DNS记录和报文</h2><p>存储在DNS这个分布式数据库中的内容称为<code>资源记录（Resource Record，RR）</code>。</p>
+<p>资源记录是一个包含了以下四个字段的四元组：</p>
+<p>(Name, Value, Type, TTL)</p>
+<p>TTL决定了记录被保存的时间，而Name和Value的值取决于Type：</p>
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>Name</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>A</td>
+<td>主机名</td>
+<td>IP地址</td>
+</tr>
+<tr>
+<td>NS</td>
+<td>域（foo.com）</td>
+<td>权威DNS服务器主机名</td>
+</tr>
+<tr>
+<td>CNAME</td>
+<td>主机名</td>
+<td>规范主机名</td>
+</tr>
+<tr>
+<td>MX</td>
+<td>主机名</td>
+<td>邮件服务器的规范主机名</td>
+</tr>
+</tbody>
+</table>
+<p>DNS报文分为请求报文和回答报文。我们这里并不具体研究这两种报文的格式和字段。</p>
+<p>在请求报文中会带上请求的<em>主机名</em>和请求的<em>类型</em>（对应RR的Type字段）</p>
+<p>在回答报文中可以携带多个RR，因此一个主机名可以有多个IP地址（冗余服务器）。</p>
+<p>至此可以回答上文中对于<code>qq.com</code>并不是一个邮件服务器的疑惑：</p>
+<p>在邮件服务中，DNS查询报文的类型字段为MX，因此查询到的RR与访问<code>qq.com</code>时查询的RR并不相同。</p>
+<hr>
+<p>EOF</p>
+
+
+                <hr>
+
+                
+
+                <ul class="pager">
+                    
+                        <li class="previous">
+                            <a href="/2018/02/10/2018-02-10/" data-toggle="tooltip" data-placement="top" title="2018-02-10">&larr; Previous Post</a>
+                        </li>
+                    
+                    
+                        <li class="next">
+                            <a href="/2018/02/09/2018-02-09/" data-toggle="tooltip" data-placement="top" title="2018-02-09">Next Post &rarr;</a>
+                        </li>
+                    
+                </ul>
+
+                
+
+                
+                <!-- disqus 评论框 start -->
+                <div class="comment">
+                    <div id="disqus_thread" class="disqus-thread"></div>
+                </div>
+                <!-- disqus 评论框 end -->
+                
+
+            </div>
+    <!-- Side Catalog Container -->
+        
+
+    <!-- Sidebar Container -->
+
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                       
+                          <a class="tag" href="/tags/#DNS" title="DNS">DNS</a>
+                        
+                          <a class="tag" href="/tags/#URL" title="URL">URL</a>
+                        
+                          <a class="tag" href="/tags/#分布式数据库" title="分布式数据库">分布式数据库</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+                <hr>
+                <h5>FRIENDS</h5>
+                <ul class="list-inline">
+
+                    
+                </ul>
+                
+            </div>
+
+        </div>
+    </div>
+</article>
+
+
+
+
+<!-- disqus 公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES * * */
+    var disqus_shortname = "hexo-theme-huxblog";
+    var disqus_identifier = "http://kaijun.rocks/2018/02/10/computer-networking-1/";
+    var disqus_url = "http://kaijun.rocks/2018/02/10/computer-networking-1/";
+
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<!-- disqus 公共JS代码 end -->
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("https://cdn.bootcss.com/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'always',
+          placement: 'right',
+          icon: '#'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
+
+    <!-- Footer -->
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                
+                
+                
+
+                
+
+                
+
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Joel&#39;s Blog 2018 
+                    <br>
+                    Theme by <a href="http://huangxuan.me">Hux</a> 
+                    <span style="display: inline-block; margin: 0 5px;">
+                        <i class="fa fa-heart"></i>
+                    </span> 
+                    Ported by <a href="http://blog.kaijun.rocks">Kaijun</a> | 
+                    <iframe
+                        style="margin-left: 2px; margin-bottom:-5px;"
+                        frameborder="0" scrolling="0" width="91px" height="20px"
+                        src="https://ghbtns.com/github-btn.html?user=kaijun&repo=hexo-theme-huxblog&type=star&count=true" >
+                    </iframe>
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/hux-blog.min.js"></script>
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- 
+     Because of the native support for backtick-style fenced code blocks 
+     right within the Markdown is landed in Github Pages, 
+     From V1.6, There is no need for Highlight.js, 
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0  
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/    
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("http://kaijun.rocks/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("https://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+
+
+
+<!-- Baidu Tongji -->
+
+
+<!-- Side Catalog -->
+
+
+
+
+
+<!-- Image to hack wechat -->
+<img src="http://kaijun.rocks/img/icon_wechat.png" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>

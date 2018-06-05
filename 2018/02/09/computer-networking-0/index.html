@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="keyword"  content="">
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <title>
+        
+          应用层的程序之间是如何沟通的 - Joel的博客 | Joel&#39;s Blog
+        
+    </title>
+
+    <link rel="canonical" href="http://kaijun.rocks/2018/02/09/computer-networking-0/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/hux-blog.min.css">
+
+    <!-- Pygments Highlight CSS -->
+    <link rel="stylesheet" href="/css/highlight.css">
+
+    <!-- Custom Fonts -->
+    <!-- <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="https://cdn.staticfile.org/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+</head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Joel&#39;s Blog</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+
+                    
+
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/about/">About</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/archives/">Archives</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/tags/">Tags</a>
+                        </li>
+                        
+                    
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+    <!-- Main Content -->
+    
+<!-- Image to hack wechat -->
+<!-- <img src="http://kaijun.rocks/img/icon_wechat.png" width="0" height="0"> -->
+<!-- <img src="{{ site.baseurl }}/{% if page.header-img %}{{ page.header-img }}{% else %}{{ site.header-img }}{% endif %}" width="0" height="0"> -->
+
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        background-image: url('/img/home-bg.jpg')
+    }
+</style>
+<header class="intro-header" >
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <div class="tags">
+                        
+                          <a class="tag" href="/tags/#计算机网络" title="计算机网络">计算机网络</a>
+                        
+                          <a class="tag" href="/tags/#套接字" title="套接字">套接字</a>
+                        
+                    </div>
+                    <h1>应用层的程序之间是如何沟通的</h1>
+                    <h2 class="subheading"></h2>
+                    <span class="meta">
+                        Posted by Joel on
+                        2018-02-09
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+    <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>接下来的一系列文章中我们将要讨论计算机网络的五层架构。</p>
+<p>这些文章是我学习计算机网络过程中的笔记与理解，用问答的方式写出来。</p>
+<p>既然是分层架构，那么在讨论每一层时我们不去关注其他层的实现细节，而是直接使用它们提供的服务。</p>
+<h2 id="什么是应用层"><a href="#什么是应用层" class="headerlink" title="什么是应用层"></a>什么是应用层</h2><p><img src="./img1.png" style="width: 500px; height: 300px"><br>应用层位于计算机网络五层模型中的最顶层，也是我们日常接触最多的一层，web、邮件、迅雷、bitTorrent等等软件都运行在应用层。</p>
+<p>他们使用不同的应用层协议，这些软件被称为应用程序。</p>
+<p>我们的问题：应用层的程序之间是如何沟通的</p>
+<h2 id="一个帮助我们理解的例子"><a href="#一个帮助我们理解的例子" class="headerlink" title="一个帮助我们理解的例子"></a>一个帮助我们理解的例子</h2><p>假设你拿着一把98K(没错狙神就是你)，你想一枪打死八百里外的鬼子机枪手。<br><img src="./img2.jpg"></p>
+<p>此时你的大脑是一个程序，鬼子的大脑是一个程序。</p>
+<p>我们要做的就是搞清楚你是如何与八百里外的鬼子通信的。</p>
+<h2 id="总览-应用程序体系结构"><a href="#总览-应用程序体系结构" class="headerlink" title="总览-应用程序体系结构"></a>总览-应用程序体系结构</h2><p>现代网络应用程序使用两种主流体系结构：</p>
+<ol>
+<li>客户-服务器(C-S)体系结构</li>
+<li>对等(P2P)体系结构</li>
+</ol>
+<h3 id="特点"><a href="#特点" class="headerlink" title="特点"></a>特点</h3><p>C-S体系要求服务器保持开启状态并准备响应客户端的请求，客户与服务器进行通信以得到服务。</p>
+<p>P2P体系要求连接的主机间直接进行通讯，这些主机称为对等方，并不存在一个专门的服务器来提供服务。虽然可以相互通信，但给定情境下依旧是一方作为客户端，一方作为服务器。</p>
+<h2 id="程序通信实质是进程通信"><a href="#程序通信实质是进程通信" class="headerlink" title="程序通信实质是进程通信"></a>程序通信实质是进程通信</h2><p>运行在多个端系统上的应用程序间的通信实际上是<code>进程</code>间的通信。</p>
+<h3 id="什么是进程间通信"><a href="#什么是进程间通信" class="headerlink" title="什么是进程间通信"></a>什么是进程间通信</h3><p>当两个进程运行在同一个端系统时，他们使用操作系统提供的进程间通信机制来相互通信。</p>
+<blockquote>
+<p>就好比你是一个精神分裂患者，你的不同人格之间可以直接对话。</p>
+</blockquote>
+<p>当两个进程运行在不同的端系统（如一台客户端电脑和一台服务器时），两个进程通过<strong>计算机网络</strong>来相互通信。发送进程向网络中发送报文，接收进程从网络接收报文并进行响应（或不响应）。</p>
+<blockquote>
+<p>对应我们的例子，你的大脑就是一个进程，鬼子的大脑是另一个进程，你将要痛击他的大脑。</p>
+</blockquote>
+<h3 id="客户进程与服务器进程"><a href="#客户进程与服务器进程" class="headerlink" title="客户进程与服务器进程"></a>客户进程与服务器进程</h3><p>在一个会话开始时，发起通信的进程是客户(client)进程，等待联系的进程是服务器(server)进程。</p>
+<p>在P2P体系中一个进程可以既是客户又是服务器。例如在P2P文件共享应用中，一个进程既能下载文件又能上载文件。</p>
+<p>现在我们的问题变为了：不同端系统上的两个进程如何进行通信。</p>
+<h2 id="如何进行进程间通讯（不同主机间）"><a href="#如何进行进程间通讯（不同主机间）" class="headerlink" title="如何进行进程间通讯（不同主机间）"></a>如何进行进程间通讯（不同主机间）</h2><p>上文说过，通过计算机网络进行通讯，那么具体怎么做到的呢？</p>
+<p>以98K的例子来说，我要怎样才能痛击鬼子呢？</p>
+<p>其实很简单：</p>
+<ol>
+<li>找到目标的位置</li>
+<li>瞄准他的某部位（咋这么污…</li>
+<li>扣下扳机，射出子弹（越来越污…</li>
+<li>子弹在空气中飞行</li>
+<li>子弹到达，目标清除</li>
+</ol>
+<p>目前需要关心的只有前三个步骤</p>
+<p>上述1、2两个步骤对应到进程间通信叫做<code>进程寻址</code></p>
+<h3 id="什么是进程寻址"><a href="#什么是进程寻址" class="headerlink" title="什么是进程寻址"></a>什么是进程寻址</h3><p>想要痛击鬼子，首先你得知道鬼子在哪里，然而光知道目标在哪里还不够，你得往目标身上某个致命的部位瞄准（🌼），最后才能开枪。</p>
+<p>对应到计算机网络中：你想与目标进程通信，你得知道目地主机的地址；然而光知道地址还不够，主机上运行有很多进程，你得找到目的主机上运行的那个进程；最后发出报文。</p>
+<ul>
+<li>目的主机的地址在internet中用<em>IP</em>来标识</li>
+<li>目的主机中的进程用端口号来标识</li>
+</ul>
+<blockquote>
+<p>至于你能不能保证子弹可以飞到目标面前，子弹是怎么在空气中飞行的等种种问题，我们统统不管。</p>
+</blockquote>
+<p>总结：<strong><em>IP地址加端口号标记出了一个主机上运行的进程。</em></strong></p>
+<p>那么，我们知道了目标的地址和端口，知道计算机网络可以帮我们传输报文，那么该怎么发送报文呢？</p>
+<p>对应我们的例子，我们来到了步骤三：扣下扳机</p>
+<h3 id="套接字"><a href="#套接字" class="headerlink" title="套接字"></a>套接字</h3><p>怎么扣扳机？用你的脑子控制你的手啊！</p>
+<p>具体一点，大脑向手部神经发出指令：扣下扳机。至于发出指令后神经怎么控制手扣扳机，大脑完全不在乎，因为它知道发出指令就能扣下扳机，并且能痛击鬼子。</p>
+<p>对应到计算机中，由进程与套接字进行交流，通过套接字收发数据，而套接字具体怎么收发数据进程完全不在乎，因为进程知道从套接字读写数据就能与目标进程通信。</p>
+<p>这就是前言里提到的分层结构的最大好处：直接使用其他层提供的服务而不用去关心细节。</p>
+<h4 id="什么是套接字"><a href="#什么是套接字" class="headerlink" title="什么是套接字"></a>什么是套接字</h4><p>套接字（socket）是一个软件接口，是同一台主机内应用层与运输层的接口。</p>
+<p>在linux中它是一个可被读写的文件，当你往文件中写入时，它将写入的数据发送到网络中；当它从网络中接收到数据，你可以从文件中读出数据。</p>
+<p>在我们的例子中，大脑是位于应用层的进程，身体代表了运输层，而手部神经就是一个套接字。</p>
+<p>大脑直接向神经发出指令，并不关心指令执行的细节。</p>
+<blockquote>
+<p>第一眼看到套接字我是一脸懵逼的，这三个字拆开都认识，合起来是什么鬼？？？！！！</p>
+<p>在以后的运输层多路复用与多路分解中会详细介绍套接字</p>
+</blockquote>
+<hr>
+<p>至此我们得出结论：不同主机上应用程序间的通信就是进程的通信。这些进程通过套接字与计算机网络（具体来说是运输层）进行通信。</p>
+<p>运输层为运行在不同主机间的进程提供了逻辑通信，从进程的角度看，通过逻辑通信，运行不同进程的主机好像直接连接在一起。</p>
+<p>计算机网络屏蔽掉底层的细节，从而简化了应用程序的设计。</p>
+<h2 id="补充：应用层协议"><a href="#补充：应用层协议" class="headerlink" title="补充：应用层协议"></a>补充：应用层协议</h2><p>应用层协议定义了运行在不同端系统上的应用程序如何相互传递报文。特别是规定了：</p>
+<ul>
+<li>交换的报文类型</li>
+<li>各报文类型的语法，字段及其意义</li>
+<li>如何发送、响应报文的规则</li>
+</ul>
+<p>对应我们的例子，你跟对手要先商量好：</p>
+<ul>
+<li>是对狙还是扫射</li>
+<li>能不能叫兄弟</li>
+<li>能不能扔手雷能不能嗑药</li>
+<li>是交替开火还是自由射击</li>
+</ul>
+<p>如果没商量好，那就不能动手。</p>
+<p>简而言之协议规定了双方的行为，进程间想要通信必须运行相同的协议。</p>
+
+
+                <hr>
+
+                
+
+                <ul class="pager">
+                    
+                        <li class="previous">
+                            <a href="/2018/02/09/2018-02-09/" data-toggle="tooltip" data-placement="top" title="2018-02-09">&larr; Previous Post</a>
+                        </li>
+                    
+                    
+                        <li class="next">
+                            <a href="/2018/02/08/2018-02-08/" data-toggle="tooltip" data-placement="top" title="2018-02-08">Next Post &rarr;</a>
+                        </li>
+                    
+                </ul>
+
+                
+
+                
+                <!-- disqus 评论框 start -->
+                <div class="comment">
+                    <div id="disqus_thread" class="disqus-thread"></div>
+                </div>
+                <!-- disqus 评论框 end -->
+                
+
+            </div>
+    <!-- Side Catalog Container -->
+        
+
+    <!-- Sidebar Container -->
+
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                       
+                          <a class="tag" href="/tags/#计算机网络" title="计算机网络">计算机网络</a>
+                        
+                          <a class="tag" href="/tags/#套接字" title="套接字">套接字</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+                <hr>
+                <h5>FRIENDS</h5>
+                <ul class="list-inline">
+
+                    
+                </ul>
+                
+            </div>
+
+        </div>
+    </div>
+</article>
+
+
+
+
+<!-- disqus 公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES * * */
+    var disqus_shortname = "hexo-theme-huxblog";
+    var disqus_identifier = "http://kaijun.rocks/2018/02/09/computer-networking-0/";
+    var disqus_url = "http://kaijun.rocks/2018/02/09/computer-networking-0/";
+
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<!-- disqus 公共JS代码 end -->
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("https://cdn.bootcss.com/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'always',
+          placement: 'right',
+          icon: '#'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
+
+    <!-- Footer -->
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                
+                
+                
+
+                
+
+                
+
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Joel&#39;s Blog 2018 
+                    <br>
+                    Theme by <a href="http://huangxuan.me">Hux</a> 
+                    <span style="display: inline-block; margin: 0 5px;">
+                        <i class="fa fa-heart"></i>
+                    </span> 
+                    Ported by <a href="http://blog.kaijun.rocks">Kaijun</a> | 
+                    <iframe
+                        style="margin-left: 2px; margin-bottom:-5px;"
+                        frameborder="0" scrolling="0" width="91px" height="20px"
+                        src="https://ghbtns.com/github-btn.html?user=kaijun&repo=hexo-theme-huxblog&type=star&count=true" >
+                    </iframe>
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/hux-blog.min.js"></script>
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- 
+     Because of the native support for backtick-style fenced code blocks 
+     right within the Markdown is landed in Github Pages, 
+     From V1.6, There is no need for Highlight.js, 
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0  
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/    
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("http://kaijun.rocks/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("https://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+
+
+
+<!-- Baidu Tongji -->
+
+
+<!-- Side Catalog -->
+
+
+
+
+
+<!-- Image to hack wechat -->
+<img src="http://kaijun.rocks/img/icon_wechat.png" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>
