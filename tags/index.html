@@ -17,7 +17,7 @@
         
     </title>
 
-    <link rel="canonical" href="/tags/">
+    <link rel="canonical" href="http://joelrh.xyz/tags/">
 
     <!-- Bootstrap Core CSS -->
     <link rel="stylesheet" href="/css/bootstrap.min.css">
@@ -97,14 +97,14 @@
 
                         
                         <li>
-                            <a href="/archives/">Archives</a>
+                            <a href="/tags/">Tags</a>
                         </li>
                         
                     
 
                         
                         <li>
-                            <a href="/tags/">Tags</a>
+                            <a href="/archives/">Archives</a>
                         </li>
                         
                     
@@ -632,9 +632,9 @@
                   <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
                   </li> -->
                  <div class="post-preview">
-                     <a href="/2018/03/07/2018-03-07/">
+                     <a href="/2018/03/19/2018-03-19/">
                         <h2 class="post-title">
-                            2018-03-07
+                            2018-03-19
                         </h2>
                         
                     </a>
@@ -647,9 +647,9 @@
                   <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
                   </li> -->
                  <div class="post-preview">
-                     <a href="/2018/03/19/2018-03-19/">
+                     <a href="/2018/03/07/2018-03-07/">
                         <h2 class="post-title">
-                            2018-03-19
+                            2018-03-07
                         </h2>
                         
                     </a>
@@ -779,7 +779,7 @@
 <script>
     // only load tagcloud.js in tag.html
     if($('#tag_cloud').length !== 0){
-        async("/js/jquery.tagcloud.js",function(){
+        async("http://joelrh.xyz/js/jquery.tagcloud.js",function(){
             $.fn.tagcloud.defaults = {
                 //size: {start: 1, end: 1, unit: 'em'},
                 color: {start: '#bbbbee', end: '#0085a1'},
@@ -813,7 +813,7 @@
 
 
 <!-- Image to hack wechat -->
-<img src="/img/icon_wechat.png" width="0" height="0" />
+<img src="http://joelrh.xyz/img/icon_wechat.png" width="0" height="0" />
 <!-- Migrate from head to bottom, no longer block render and still work -->
 
 </body>
