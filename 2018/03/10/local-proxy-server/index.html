@@ -317,14 +317,6 @@
 
                 <!-- Featured Tags -->
                 
-                <section>
-                    <!-- no hr -->
-                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
-                    <div class="tags">
-                       
-                    </div>
-                </section>
-                
 
                 <!-- Friends Blog -->
                 
@@ -446,6 +438,33 @@
 
 <!-- Custom Theme JavaScript -->
 <script src="/js/hux-blog.min.js"></script>
+
+<!-- 可爱的颜文字脚本 -->
+<script>
+    (() => {
+        const faces = [
+            '(。_。)',
+            '(;´༎ຶД༎ຶ`)',
+            '(°ー°〃)',
+            '_(:з」∠)_',
+            '_(•̀ω•́ 」∠)_',
+            '(:3[▓▓]',
+            '.._:(´_`」 ∠):_ ...',
+            '(ーωー*＊)оΟ〇'
+        ]
+        const title = document.title
+        const len = faces.length
+        document.addEventListener('visibilitychange', () => {
+            const face = faces[Math.floor(Math.random() * len)]
+            if (document.visibilityState=='hidden') {
+                document.title = `${face} ${title}`
+            } else {
+                setTimeout(() => document.title = title, 800)
+                document.title = '．．．．．．'
+            }
+        })
+    })()
+</script>
 
 <!-- 根据页面mathjax变量决定是否加载MathJax数学公式js -->
 
