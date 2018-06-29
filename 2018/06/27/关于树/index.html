@@ -13,11 +13,11 @@
 
     <title>
         
-          今天，也是充满懒惰的一天 - Joel的博客 | Joel&#39;s Blog
+          关于树 - Joel的博客 | Joel&#39;s Blog
         
     </title>
 
-    <link rel="canonical" href="http://joelrh.xyz/2018/06/06/another-lazy-day/">
+    <link rel="canonical" href="http://joelrh.xyz/2018/06/27/关于树/">
 
     <!-- Bootstrap Core CSS -->
     <link rel="stylesheet" href="/css/bootstrap.min.css">
@@ -165,14 +165,14 @@
                 <div class="post-heading">
                     <div class="tags">
                         
-                          <a class="tag" href="/tags/#diary" title="diary">diary</a>
+                          <a class="tag" href="/tags/#不知为何物" title="不知为何物">不知为何物</a>
                         
                     </div>
-                    <h1>今天，也是充满懒惰的一天</h1>
-                    <h2 class="subheading">其实是昨天没睡好</h2>
+                    <h1>关于树</h1>
+                    <h2 class="subheading"></h2>
                     <span class="meta">
                         Posted by Joel on
-                        June 06,2018
+                        June 27,2018
                     </span>
                 </div>
             </div>
@@ -191,11 +191,8 @@
                 col-md-10 col-md-offset-1
                 post-container">
 
-                <p>把日记和博客的内容剥离了，好歹还是做了点什么。。。</p>
-<p>这算是自我安慰吗（逃</p>
-<p>上午最后一次去了舒哥办公室（希望是最后一次</p>
-<p>大学即将落幕，emmmm，没什么特别的感觉吧。</p>
-<p>我要努力啊！！！</p>
+                <h2 id="满m叉树的性质"><a href="#满m叉树的性质" class="headerlink" title="满m叉树的性质"></a>满m叉树的性质</h2><p>对于一个满m叉树，编号为i的结点的第一个孩子的编号为<strong>(i - 1) * m + 1 + 1</strong>，第k个孩子的编号为<strong>(i - 1) * m + 1 + k</strong></p>
+<p>第i个结点的双亲结点（如果存在）编号为<strong>$\lfloor (i - 2) / m \rfloor$ + 1</strong></p>
 <hr>
 <p>EOF</p>
 
@@ -211,21 +208,24 @@
                     
                         
                             
-                            
-                        
-                            
-                            
-                        
-                            
-                            
-                        
-                            
-                            
-                        
-                            
                                 
                     
                     
+                        
+                            
+                            
+                        
+                            
+                            
+                        
+                            
+                            
+                        
+                            
+                            
+                        
+                            
+                            
                         
                             
                                 
@@ -233,10 +233,10 @@
                     <!-- 定义临时变量过滤隐藏的page end -->
                     
                         <li class="previous">
-                            <a href="/2018/06/27/关于树/" data-toggle="tooltip" data-placement="top" title="关于树">
+                            <a href="/2018/06/29/感到沮丧与重燃斗志/" data-toggle="tooltip" data-placement="top" title="证明题真不好玩">
                                 Previous
                                 <br>
-                                <span>关于树</span>
+                                <span>证明题真不好玩</span>
                             </a>
                         </li>
                     
@@ -279,7 +279,7 @@
                     <h5><a href="/tags/">FEATURED TAGS</a></h5>
                     <div class="tags">
                        
-                          <a class="tag" href="/tags/#diary" title="diary">diary</a>
+                          <a class="tag" href="/tags/#不知为何物" title="不知为何物">不知为何物</a>
                         
                     </div>
                 </section>
@@ -307,8 +307,8 @@
 <script type="text/javascript">
     /* * * CONFIGURATION VARIABLES * * */
     var disqus_shortname = "joelrh-xyz";
-    var disqus_identifier = "http://joelrh.xyz/2018/06/06/another-lazy-day/";
-    var disqus_url = "http://joelrh.xyz/2018/06/06/another-lazy-day/";
+    var disqus_identifier = "http://joelrh.xyz/2018/06/27/关于树/";
+    var disqus_url = "http://joelrh.xyz/2018/06/27/关于树/";
 
     (function() {
         var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
@@ -434,6 +434,43 @@
 </script>
 
 <!-- 根据页面mathjax变量决定是否加载MathJax数学公式js -->
+
+    <!-- MathJax配置，可通过单美元符号书写行内公式等 -->
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+    "HTML-CSS": { 
+        preferredFont: "TeX", 
+        availableFonts: ["STIX","TeX"], 
+        linebreaks: { automatic:true }, 
+        EqnChunk: (MathJax.Hub.Browser.isMobile ? 10 : 50) 
+    },
+    tex2jax: { 
+        inlineMath: [ ["$", "$"], ["\\(","\\)"] ], 
+        processEscapes: true, 
+        ignoreClass: "tex2jax_ignore|dno",
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    },
+    TeX: {  
+        equationNumbers: { autoNumber: "AMS" },
+        noUndefined: { attributes: { mathcolor: "red", mathbackground: "#FFEEEE", mathsize: "90%" } }, 
+        Macros: { href: "{}" } 
+    },
+    messageStyle: "none"
+    }); 
+</script>
+<!-- 给MathJax元素添加has-jax class -->
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+<!-- 通过连接CDN加载MathJax的js代码 -->
+<script type="text/javascript" async
+  src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-MML-AM_CHTML">
+</script>
 
 
 <!-- async load function -->
