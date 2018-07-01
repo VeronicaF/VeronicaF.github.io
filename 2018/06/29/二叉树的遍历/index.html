@@ -13,11 +13,11 @@
 
     <title>
         
-          证明题真不好玩 - Joel的博客 | Joel&#39;s Blog
+          二叉树的遍历 - Joel的博客 | Joel&#39;s Blog
         
     </title>
 
-    <link rel="canonical" href="http://joelrh.xyz/2018/06/29/感到沮丧与重燃斗志/">
+    <link rel="canonical" href="http://joelrh.xyz/2018/06/29/二叉树的遍历/">
 
     <!-- Bootstrap Core CSS -->
     <link rel="stylesheet" href="/css/bootstrap.min.css">
@@ -168,7 +168,7 @@
                           <a class="tag" href="/tags/#不知为何物" title="不知为何物">不知为何物</a>
                         
                     </div>
-                    <h1>证明题真不好玩</h1>
+                    <h1>二叉树的遍历</h1>
                     <h2 class="subheading"></h2>
                     <span class="meta">
                         Posted by Joel on
@@ -191,12 +191,38 @@
                 col-md-10 col-md-offset-1
                 post-container">
 
-                <p>今天吃晚饭的时候心情低落，一个是数学的证明题完全做不出来，一个是数据结构卡在了一个很简单的地方：二叉树的后序遍历的非递归实现。</p>
-<p>真让人沮丧，以前遇到这种问题都是直接放弃，然而这次似乎没有这个选项，所以很丧。</p>
-<p>然而吃着那碗还算好吃的面，我突然意识到这是我考研过程中遇到的第一个挫折。</p>
-<p>喂才第一个而已啊，有什么大不了的。数据结构难学吗？难。学不下去吗？并不是，只是需要一点方法。</p>
-<p>所以说，又有了些斗志，只是不知道什么时候会消耗干净。</p>
-<p>与KL继续，额，这算是冷战吗。真是，让人，头大。</p>
+                <p>递归算法不在赘述。</p>
+<h3 id="先序遍历的非递归实现"><a href="#先序遍历的非递归实现" class="headerlink" title="先序遍历的非递归实现"></a>先序遍历的非递归实现</h3><p>思路：</p>
+<ol>
+<li>先将根节点入栈</li>
+<li>将栈顶元素出栈，访问之，如果该元素有右孩子则将右孩子入栈，如果有左孩子则将左孩子入栈</li>
+<li>重复步骤2直到栈空</li>
+</ol>
+<p>这种方法与图的深度优先搜索类似。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 先序遍历的非递归实现</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">preOrder</span><span class="params">(BiTree tree)</span> </span>&#123;</span><br><span class="line">    InitStack(S);</span><br><span class="line">    BiTNode p = tree;</span><br><span class="line">    push(S, p);</span><br><span class="line">    <span class="keyword">while</span>(p) &#123;</span><br><span class="line">        <span class="comment">// 第一个问题：循环的条件</span></span><br><span class="line">        <span class="comment">// 应在栈中还有元素时循环</span></span><br><span class="line">        pop(S, p); <span class="comment">//将根节点出栈</span></span><br><span class="line">        visit(p); <span class="comment">// 访问之</span></span><br><span class="line">        <span class="keyword">if</span> (p -&gt; rchild) &#123;</span><br><span class="line">            push(S, p -&gt; rchild);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (p -&gt; lchild) &#123;</span><br><span class="line">            push(S, p -&gt; lchild)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="中序遍历的非递归实现"><a href="#中序遍历的非递归实现" class="headerlink" title="中序遍历的非递归实现"></a>中序遍历的非递归实现</h3><p>思路：</p>
+<ol>
+<li>维护一个指针指向当前节点，初始状态指向根节点</li>
+<li>如果当前节点不为空则将其入栈，并将指针指向该节点的左孩子</li>
+<li>否则将栈中第一个结点出栈并访问，将指针指向该节点的右孩子</li>
+<li>重复2-3的步骤直到栈为空并且当前节点为空</li>
+</ol>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">inOrder</span><span class="params">(BiTree tree)</span> </span>&#123;</span><br><span class="line">    initStack(S);</span><br><span class="line">    BiTNode p = tree;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">while</span>(p || !isEmpty(S)) &#123;</span><br><span class="line">        <span class="keyword">if</span> (p) &#123;</span><br><span class="line">            push(S, p);</span><br><span class="line">            p = p -&gt; lchild;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            pop(S, p);</span><br><span class="line">            visit(p);</span><br><span class="line">            p = p -&gt; rchild;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="后序遍历的非递归实现"><a href="#后序遍历的非递归实现" class="headerlink" title="后序遍历的非递归实现"></a>后序遍历的非递归实现</h3><p>思路：</p>
+<ol>
+<li>维护两个栈，S1用来存放临时数据，S2用来存放结果</li>
+<li>从S1弹出栈顶元素压入S2，将S1的左右孩子入栈</li>
+<li>重复步骤2直到S1为空</li>
+<li>将S2中元素依次出栈即为结果</li>
+</ol>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">postOrder</span><span class="params">(BiTree tree)</span> </span>&#123;</span><br><span class="line">    BiTNode p = tree;</span><br><span class="line">    initStack(S1);</span><br><span class="line">    initStack(S2);</span><br><span class="line">    push(S1, p);</span><br><span class="line">    <span class="keyword">while</span> (!isEmpty(S1)) &#123;</span><br><span class="line">        pop(S1, p);</span><br><span class="line">        push(S2, p);</span><br><span class="line">        <span class="keyword">if</span> (p -&gt; lchild) &#123;</span><br><span class="line">            push(S1, p -&gt; lchild);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (p -&gt; rchild) &#123;</span><br><span class="line">            push(S1, p -&gt; rchild);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">while</span> (!isEmpty(S2)) &#123;</span><br><span class="line">        pop(S2, p);</span><br><span class="line">        visit(p);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="二叉树的层次遍历"><a href="#二叉树的层次遍历" class="headerlink" title="二叉树的层次遍历"></a>二叉树的层次遍历</h3><p>思路：借助队列来实现</p>
+<ol>
+<li>将根节点入队</li>
+<li>将根节点出队，访问之；将根节点的左孩子入队，右孩子入队</li>
+<li>重复步骤2直到队列为空</li>
+</ol>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">levelOrder</span><span class="params">(BiTree tree)</span> </span>&#123;</span><br><span class="line">    initQueue(Q);</span><br><span class="line">    BiTNode p = tree;</span><br><span class="line">    enQueue(Q, p);</span><br><span class="line">    <span class="keyword">while</span> (!isEmpty(Q)) &#123;</span><br><span class="line">        Dequeue(Q, p);</span><br><span class="line">        visit(p);</span><br><span class="line">        <span class="keyword">if</span> ( p -&gt; lchild) &#123;</span><br><span class="line">            enQueue(Q, p -&gt; lchild);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> ( p -&gt; rchild) &#123;</span><br><span class="line">            enQueue(Q, p -&gt; rchild);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <hr>
 <p>EOF</p>
 
@@ -212,7 +238,8 @@
                     
                         
                             
-                                
+                            
+                        
                     
                     
                         
@@ -221,20 +248,12 @@
                     
                     <!-- 定义临时变量过滤隐藏的page end -->
                     
-                        <li class="previous">
-                            <a href="/2018/06/29/二叉树的遍历/" data-toggle="tooltip" data-placement="top" title="二叉树的遍历">
-                                Previous
-                                <br>
-                                <span>二叉树的遍历</span>
-                            </a>
-                        </li>
-                    
                     
                         <li class="next">
-                            <a href="/2018/06/27/关于树/" data-toggle="tooltip" data-placement="top" title="关于树">
+                            <a href="/2018/06/29/感到沮丧与重燃斗志/" data-toggle="tooltip" data-placement="top" title="证明题真不好玩">
                                 Next Post
                                 <br>
-                                <span>关于树</span>
+                                <span>证明题真不好玩</span>
                             </a>
                         </li>
                     
@@ -296,8 +315,8 @@
 <script type="text/javascript">
     /* * * CONFIGURATION VARIABLES * * */
     var disqus_shortname = "joelrh-xyz";
-    var disqus_identifier = "http://joelrh.xyz/2018/06/29/感到沮丧与重燃斗志/";
-    var disqus_url = "http://joelrh.xyz/2018/06/29/感到沮丧与重燃斗志/";
+    var disqus_identifier = "http://joelrh.xyz/2018/06/29/二叉树的遍历/";
+    var disqus_url = "http://joelrh.xyz/2018/06/29/二叉树的遍历/";
 
     (function() {
         var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
