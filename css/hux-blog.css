@@ -962,3 +962,8 @@ body {
 .page-fullscreen footer .copyright a:hover {
   color: #ddd;
 }
+
+.mjx-math {
+  font-size: 175%;
+  padding: 15px 0;
+}

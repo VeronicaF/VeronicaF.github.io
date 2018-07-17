@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="keyword"  content="">
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <title>
+        
+          二叉树相关算法 - Joel的博客 | Joel&#39;s Blog
+        
+    </title>
+
+    <link rel="canonical" href="http://joelrh.xyz/2018/06/29/二叉树相关算法/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/hux-blog.min.css">
+
+    <!-- Pygments Highlight CSS -->
+    <link rel="stylesheet" href="/css/highlight.css">
+
+    <!-- Custom Fonts -->
+    <!-- <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="https://cdn.staticfile.org/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+</head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Joel&#39;s Blog</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+
+                    
+
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/about/">About</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/archives/">Archives</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/tags/">Tags</a>
+                        </li>
+                        
+                    
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+    <!-- Main Content -->
+    
+<!-- Image to hack wechat -->
+<!-- <img src="http://joelrh.xyz/img/icon_wechat.png" width="0" height="0"> -->
+<!-- <img src="{{ site.baseurl }}/{% if page.header-img %}{{ page.header-img }}{% else %}{{ site.header-img }}{% endif %}" width="0" height="0"> -->
+
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        background-image: url('/img/home-bg.jpg')
+    }
+</style>
+<header class="intro-header" >
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <div class="tags">
+                        
+                          <a class="tag" href="/tags/#不知为何物" title="不知为何物">不知为何物</a>
+                        
+                    </div>
+                    <h1>二叉树相关算法</h1>
+                    <h2 class="subheading"></h2>
+                    <span class="meta">
+                        Posted by Joel on
+                        June 29,2018
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+    <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                <p>递归算法不在赘述。</p>
+<h3 id="先序遍历的非递归实现"><a href="#先序遍历的非递归实现" class="headerlink" title="先序遍历的非递归实现"></a>先序遍历的非递归实现</h3><p>思路：</p>
+<ol>
+<li>先将根节点入栈</li>
+<li>将栈顶元素出栈，访问之，如果该元素有右孩子则将右孩子入栈，如果有左孩子则将左孩子入栈</li>
+<li>重复步骤2直到栈空</li>
+</ol>
+<p>这种方法与图的深度优先搜索类似。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 先序遍历的非递归实现</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">preOrder</span><span class="params">(BiTree tree)</span> </span>&#123;</span><br><span class="line">    InitStack(S);</span><br><span class="line">    BiTNode p = tree;</span><br><span class="line">    push(S, p);</span><br><span class="line">    <span class="keyword">while</span>(!isEmpty(S)) &#123;</span><br><span class="line">        <span class="comment">// 循环的条件：</span></span><br><span class="line">        <span class="comment">// 应在栈中还有元素时循环</span></span><br><span class="line">        pop(S, p); <span class="comment">//将根节点出栈</span></span><br><span class="line">        visit(p); <span class="comment">// 访问之</span></span><br><span class="line">        <span class="keyword">if</span> (p -&gt; rchild) &#123;</span><br><span class="line">            push(S, p -&gt; rchild);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (p -&gt; lchild) &#123;</span><br><span class="line">            push(S, p -&gt; lchild)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="中序遍历的非递归实现"><a href="#中序遍历的非递归实现" class="headerlink" title="中序遍历的非递归实现"></a>中序遍历的非递归实现</h3><p>思路：</p>
+<ol>
+<li>维护一个指针指向当前节点，初始状态指向根节点</li>
+<li>如果当前节点不为空则将其入栈，并将指针指向该节点的左孩子</li>
+<li>否则将栈中第一个结点出栈并访问，将指针指向该节点的右孩子</li>
+<li>重复2-3的步骤直到栈为空并且当前节点为空</li>
+</ol>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">inOrder</span><span class="params">(BiTree tree)</span> </span>&#123;</span><br><span class="line">    initStack(S);</span><br><span class="line">    BiTNode p = tree;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">while</span>(p || !isEmpty(S)) &#123;</span><br><span class="line">        <span class="keyword">if</span> (p) &#123;</span><br><span class="line">            push(S, p);</span><br><span class="line">            p = p -&gt; lchild;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            pop(S, p);</span><br><span class="line">            visit(p);</span><br><span class="line">            p = p -&gt; rchild;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="后序遍历的非递归实现"><a href="#后序遍历的非递归实现" class="headerlink" title="后序遍历的非递归实现"></a>后序遍历的非递归实现</h3><p>思路：</p>
+<ol>
+<li>维护两个栈，S1用来存放临时数据，S2用来存放结果</li>
+<li>从S1弹出栈顶元素压入S2，将S1的左右孩子入栈</li>
+<li>重复步骤2直到S1为空</li>
+<li>将S2中元素依次出栈即为结果</li>
+</ol>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">postOrder</span><span class="params">(BiTree tree)</span> </span>&#123;</span><br><span class="line">    BiTNode p = tree;</span><br><span class="line">    initStack(S1);</span><br><span class="line">    initStack(S2);</span><br><span class="line">    push(S1, p);</span><br><span class="line">    <span class="keyword">while</span> (!isEmpty(S1)) &#123;</span><br><span class="line">        pop(S1, p);</span><br><span class="line">        push(S2, p);</span><br><span class="line">        <span class="keyword">if</span> (p -&gt; lchild) &#123;</span><br><span class="line">            push(S1, p -&gt; lchild);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (p -&gt; rchild) &#123;</span><br><span class="line">            push(S1, p -&gt; rchild);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">while</span> (!isEmpty(S2)) &#123;</span><br><span class="line">        pop(S2, p);</span><br><span class="line">        visit(p);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="二叉树的层次遍历"><a href="#二叉树的层次遍历" class="headerlink" title="二叉树的层次遍历"></a>二叉树的层次遍历</h3><p>思路：借助队列来实现</p>
+<ol>
+<li>将根节点入队</li>
+<li>将根节点出队，访问之；将根节点的左孩子入队，右孩子入队</li>
+<li>重复步骤2直到队列为空</li>
+</ol>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">levelOrder</span><span class="params">(BiTree tree)</span> </span>&#123;</span><br><span class="line">    initQueue(Q);</span><br><span class="line">    BiTNode p = tree;</span><br><span class="line">    enQueue(Q, p);</span><br><span class="line">    <span class="keyword">while</span> (!isEmpty(Q)) &#123;</span><br><span class="line">        Dequeue(Q, p);</span><br><span class="line">        visit(p);</span><br><span class="line">        <span class="keyword">if</span> ( p -&gt; lchild) &#123;</span><br><span class="line">            enQueue(Q, p -&gt; lchild);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> ( p -&gt; rchild) &#123;</span><br><span class="line">            enQueue(Q, p -&gt; rchild);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="通过层次遍历求树高"><a href="#通过层次遍历求树高" class="headerlink" title="通过层次遍历求树高"></a>通过层次遍历求树高</h3><p>思路：</p>
+<p>观察层次遍历中的<code>while</code>循环</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">while</span> (!isEmpty(Q)) &#123;</span><br><span class="line">    Dequeue(Q, p);</span><br><span class="line">    visit(p);</span><br><span class="line">    <span class="keyword">if</span> ( p -&gt; lchild) &#123;</span><br><span class="line">        enQueue(Q, p -&gt; lchild);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> ( p -&gt; rchild) &#123;</span><br><span class="line">        enQueue(Q, p -&gt; rchild);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>实际上当第n层元素全部退队后，队列中的元素个数就是下一层元素的个数，如下图所示二叉树：</p>
+<p><img src="./tree1"></p>
+<ol>
+<li>初始状态，队列中只有第一层元素–1，用一个变量<code>CLS(curretLevelSize)</code>记录队列中元素个数</li>
+<li>当第一层元素全部退队，队列中有两个元素–2和3，更新<code>CLS</code>的值为2，即当前队列大小</li>
+<li>当第二层元素全部退队，队列中有两个元素–4和5，更新<code>CLS</code>的值为2，即当前队列大小</li>
+</ol>
+<p>这样只要在每层第一个元素退队时将层数+1即可完成算法。</p>
+<p>C语言实现：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">getHeight</span><span class="params">(BiTree tree)</span> </span>&#123;</span><br><span class="line">    initQueue(Q);</span><br><span class="line">    BiTNode p;</span><br><span class="line">    enQueue(Q, p); <span class="comment">// 根节点先入栈</span></span><br><span class="line">    <span class="keyword">int</span> CLS = <span class="number">0</span>, cnt = <span class="number">0</span>, height = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">while</span> (!isEmpty(Q)) &#123;</span><br><span class="line">        <span class="comment">// 外层循环每次执行就代表有一层节点已经全部退队</span></span><br><span class="line">        height++; <span class="comment">// 层数+1</span></span><br><span class="line">        CLS = size(Q); <span class="comment">// 将CLS更新为当前层节点数</span></span><br><span class="line">        cnt = <span class="number">0</span>; <span class="comment">// cnt是当前层已经退队的节点数</span></span><br><span class="line">        <span class="keyword">while</span> (cnt &lt; CLS) &#123;</span><br><span class="line">            deQueue(Q, p);</span><br><span class="line">            cnt++; <span class="comment">// 出队一个元素，cnt+1</span></span><br><span class="line">            <span class="keyword">if</span> (p -&gt; lchild) &#123;</span><br><span class="line">                enQueue(Q, p -&gt; lchild);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span> (p -&gt; rchild) &#123;</span><br><span class="line">                enQueue(Q, p -&gt; rchild);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> height;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="从先序遍历的结果和中序遍历的结果构造二叉链表"><a href="#从先序遍历的结果和中序遍历的结果构造二叉链表" class="headerlink" title="从先序遍历的结果和中序遍历的结果构造二叉链表"></a>从先序遍历的结果和中序遍历的结果构造二叉链表</h3><p>思想：</p>
+<ol>
+<li>根据先序序列确定树的根结点</li>
+<li>根据根节点在中序序列中划分出左右子树包含哪些结点，然后根据左右子树结点在先序序列中的次序可以确定子树的根节点，即回到步骤一</li>
+</ol>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">BiTree <span class="title">preInCreate</span><span class="params">(ElemType A[], ElemType B[], <span class="keyword">int</span> FOP, <span class="keyword">int</span> LOP, <span class="keyword">int</span> FOI, <span class="keyword">int</span> LOI)</span> </span>&#123;</span><br><span class="line"><span class="comment">// 先序和中序序列存储在两个数组A、B中，FOP、LOP分别为先序的第一和最后一个下标</span></span><br><span class="line"><span class="comment">// 即当前子树的先序遍历结果，FOI、LOI分别为中序的第一和最后一个下标</span></span><br><span class="line"><span class="comment">// 初始状态FOP = FOP = 1，LOP = LOI = n</span></span><br><span class="line">    root = (BiTNode*)<span class="built_in">malloc</span>(<span class="keyword">sizeof</span>(BiTNode)); <span class="comment">// 构造根节点</span></span><br><span class="line">    root -&gt; data = A[FOP]; <span class="comment">// 根节点</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">int</span> i = FOI; <span class="comment">// 是根节点在中序序列中的位置</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> (; B[i] != root -&gt; data; i++) <span class="comment">// 在中序序列中找到根节点的位置</span></span><br><span class="line"></span><br><span class="line">    llen = i - FOI; <span class="comment">// 左子树长度</span></span><br><span class="line">    rlen = LOI - i; <span class="comment">// 右子树长度</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (llen) &#123;</span><br><span class="line">        root -&gt; lchild = preInCreate(A, B, FOP + <span class="number">1</span>, FOP + llen, FOI, FOI + llen - <span class="number">1</span>);</span><br><span class="line">        <span class="comment">// 非常trick的一步，主要问题是参数为什么这么取</span></span><br><span class="line">        <span class="comment">// FOP + 1：我们知道FOP是当前树的先序序列的第一个节点，那么FOP + 1不就是当前树的左孩子吗，不就是左子树的根节点吗</span></span><br><span class="line">        <span class="comment">// FOP + llen：就是左子树最后一个节点</span></span><br><span class="line">        <span class="comment">// FOI 与 FOI + llen - 1 是左子树中序序列</span></span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        root -&gt; lchild = <span class="literal">NULL</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (rlen) &#123;</span><br><span class="line">        root -&gt; rchild = preInCreate(A, B, h1 - rlen + <span class="number">1</span>, h1, h2 - rlen + <span class="number">1</span>, h2);</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        root -&gt; rchild = <span class="literal">NULL</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> root;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="判别给定二叉树是否为完全二叉树"><a href="#判别给定二叉树是否为完全二叉树" class="headerlink" title="判别给定二叉树是否为完全二叉树"></a>判别给定二叉树是否为完全二叉树</h3><p>思路：采用层次遍历，将所有节点全部加入队列（包括空节点），这样相当于层次遍历了一棵满二叉树，出队时如果遇到空节点则该节点之后的所有节点都应该为空节点，否则不是完全二叉树。</p>
+<h3 id="求二叉树中度为2的节点个数"><a href="#求二叉树中度为2的节点个数" class="headerlink" title="求二叉树中度为2的节点个数"></a>求二叉树中度为2的节点个数</h3><p>思路：采用递归算法，f(t)的模型如下:</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">case</th>
+<th style="text-align:left">return</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">b == NULL</td>
+<td style="text-align:left">0</td>
+</tr>
+<tr>
+<td style="text-align:left">b-&gt;lchild &amp;&amp; b-&gt;rchild</td>
+<td style="text-align:left">f(t-&gt;lchild) + f(t-&gt;rchild) + 1</td>
+</tr>
+<tr>
+<td style="text-align:left">else</td>
+<td style="text-align:left">f(t-&gt;lchild) + f(t-&gt;rchild)</td>
+</tr>
+</tbody>
+</table>
+<h3 id="交换每个节点的左右节点"><a href="#交换每个节点的左右节点" class="headerlink" title="交换每个节点的左右节点"></a>交换每个节点的左右节点</h3><p>思路：采用递归，f(t)模型如下：</p>
+<p>递归基： f(t)交换t的左子节点和右子节点<br>终止条件：t == NULL<br>递归调用：f(t-&gt;lchild); f(t-&gt;rchild)</p>
+<h3 id="寻找先序遍历中第k个节点的值"><a href="#寻找先序遍历中第k个节点的值" class="headerlink" title="寻找先序遍历中第k个节点的值"></a>寻找先序遍历中第k个节点的值</h3><p>思路：递归，维护一个全局变量代表查找次数，f(t)模型如下：</p>
+<p>递归基：在t的左右子树查找，每查找一次i + 1</p>
+<p>终止条件：i == k</p>
+<hr>
+<p>EOF</p>
+
+
+                <hr>
+
+                
+
+                <ul class="pager">
+                    <!-- 定义临时变量过滤隐藏的page start -->
+                    
+                    
+                    
+                        
+                            
+                            
+                        
+                            
+                                
+                    
+                    
+                        
+                            
+                                
+                    
+                    <!-- 定义临时变量过滤隐藏的page end -->
+                    
+                        <li class="previous">
+                            <a href="/2018/07/04/2005考研英语/" data-toggle="tooltip" data-placement="top" title="2005考研英语">
+                                Previous
+                                <br>
+                                <span>2005考研英语</span>
+                            </a>
+                        </li>
+                    
+                    
+                        <li class="next">
+                            <a href="/2018/06/29/感到沮丧与重燃斗志/" data-toggle="tooltip" data-placement="top" title="证明题真不好玩">
+                                Next Post
+                                <br>
+                                <span>证明题真不好玩</span>
+                            </a>
+                        </li>
+                    
+                </ul>
+
+                
+
+                
+                <!-- disqus 评论框 start -->
+                <div class="comment">
+                    <div id="disqus_thread" class="disqus-thread"></div>
+                </div>
+                <!-- disqus 评论框 end -->
+                
+
+            </div>
+    <!-- Side Catalog Container -->
+        
+
+    <!-- Sidebar Container -->
+
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                       
+                          <a class="tag" href="/tags/#不知为何物" title="不知为何物">不知为何物</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+                <hr>
+                <h5>FRIENDS</h5>
+                <ul class="list-inline">
+
+                    
+                </ul>
+                
+            </div>
+
+        </div>
+    </div>
+</article>
+
+
+
+
+<!-- disqus 公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES * * */
+    var disqus_shortname = "joelrh-xyz";
+    var disqus_identifier = "http://joelrh.xyz/2018/06/29/二叉树相关算法/";
+    var disqus_url = "http://joelrh.xyz/2018/06/29/二叉树相关算法/";
+
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<!-- disqus 公共JS代码 end -->
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("https://cdn.bootcss.com/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'always',
+          placement: 'right',
+          icon: '#'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
+
+    <!-- Footer -->
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                
+                
+                
+
+                
+
+                
+
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Joel&#39;s Blog 2018 
+                    <br>
+                    Theme by <a href="http://huangxuan.me">Hux</a> 
+                    <span style="display: inline-block; margin: 0 5px;">
+                        <i class="fa fa-heart"></i>
+                    </span> 
+                    Ported by <a href="http://blog.kaijun.rocks">Kaijun</a> | 
+                    <!-- <iframe
+                        style="margin-left: 2px; margin-bottom:-5px;"
+                        frameborder="0" scrolling="0" width="91px" height="20px"
+                        src="https://ghbtns.com/github-btn.html?user=kaijun&repo=hexo-theme-huxblog&type=star&count=true" >
+                    </iframe> -->
+                    <a href="http://joelrh.xyz">Joel</a>
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/hux-blog.min.js"></script>
+
+<!-- 可爱的颜文字脚本 -->
+<script>
+    (() => {
+        const faces = [
+            '(。_。)',
+            '(;´༎ຶД༎ຶ`)',
+            '(°ー°〃)',
+            '_(:з」∠)_',
+            '_(•̀ω•́ 」∠)_',
+            '(:3[▓▓]',
+            '.._:(´_`」 ∠):_ ...',
+            '(ーωー*＊)оΟ〇'
+        ]
+        const title = document.title
+        const len = faces.length
+        document.addEventListener('visibilitychange', () => {
+            const face = faces[Math.floor(Math.random() * len)]
+            if (document.visibilityState=='hidden') {
+                document.title = `${face} ${title}`
+            } else {
+                setTimeout(() => document.title = title, 800)
+                document.title = '．．．．．．'
+            }
+        })
+    })()
+</script>
+
+<!-- 根据页面mathjax变量决定是否加载MathJax数学公式js -->
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- 
+     Because of the native support for backtick-style fenced code blocks 
+     right within the Markdown is landed in Github Pages, 
+     From V1.6, There is no need for Highlight.js, 
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0  
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/    
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("http://joelrh.xyz/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("https://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+
+
+
+<!-- Baidu Tongji -->
+
+
+<!-- Side Catalog -->
+
+
+
+
+
+<!-- Image to hack wechat -->
+<img src="http://joelrh.xyz/img/icon_wechat.png" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>
