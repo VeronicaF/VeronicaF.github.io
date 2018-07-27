@@ -13,11 +13,11 @@
 
     <title>
         
-          Joel的博客 | Joel&#39;s Blog
+          一些计组的概念和缩写 - Joel的博客 | Joel&#39;s Blog
         
     </title>
 
-    <link rel="canonical" href="http://joelrh.xyz/categories/乱七八糟/page/2/">
+    <link rel="canonical" href="http://joelrh.xyz/2018/07/24/一些计组的概念和缩写/">
 
     <!-- Bootstrap Core CSS -->
     <link rel="stylesheet" href="/css/bootstrap.min.css">
@@ -147,7 +147,235 @@
 
 
     <!-- Main Content -->
-    <!-- Default Archive layout, we use archives instead. -->
+    
+<!-- Image to hack wechat -->
+<!-- <img src="http://joelrh.xyz/img/icon_wechat.png" width="0" height="0"> -->
+<!-- <img src="{{ site.baseurl }}/{% if page.header-img %}{{ page.header-img }}{% else %}{{ site.header-img }}{% endif %}" width="0" height="0"> -->
+
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        background-image: url('/img/home-bg.jpg')
+    }
+</style>
+<header class="intro-header" >
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <div class="tags">
+                        
+                          <a class="tag" href="/tags/#计算机组成原理" title="计算机组成原理">计算机组成原理</a>
+                        
+                    </div>
+                    <h1>一些计组的概念和缩写</h1>
+                    <h2 class="subheading"></h2>
+                    <span class="meta">
+                        Posted by Joel on
+                        July 24,2018
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+    <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                <h3 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h3><p>存储字长：一个存储单元的二进制代码位数，常说的字长就是这玩意儿。常说的XX电脑是多少位也是说的这玩意儿</p>
+<p>指令字长：一个指令字包含的二进制代码的长度，通常取存储字长的整数倍</p>
+<p>机器字长：一次整数运算能处理的二进制数据的位数，通常等于内部寄存器大小</p>
+<p>数据字长：数据总线一次能并行传送数据的位数</p>
+<p>吞吐率：系统在单位时间内处理请求的数量</p>
+<h3 id="缩写"><a href="#缩写" class="headerlink" title="缩写"></a>缩写</h3><h4 id="各种寄存器"><a href="#各种寄存器" class="headerlink" title="各种寄存器"></a>各种寄存器</h4><p>PC：program counter，程序计数器</p>
+<p>IR：instruction register，指令寄存器</p>
+<p>MAR：memory address register，地址寄存器，存储地址</p>
+<p>MDR：memory data register，数据寄存器，长度等于存储字长，主要存储数据</p>
+<h4 id="性能相关"><a href="#性能相关" class="headerlink" title="性能相关"></a>性能相关</h4><p>MIPS：million instructions per second，每秒百万指令</p>
+<p>MFLOPS：mega Floating-point Operations Per Second，每秒百万次浮点运算</p>
+<p>CPI：clock cycle per instruction，每条指令平均每条指令的时钟周期数</p>
+<p>IPC：instructions per clock cycle，每个时钟周期执行的指令数</p>
+<h3 id="MIPS指令集"><a href="#MIPS指令集" class="headerlink" title="MIPS指令集"></a>MIPS指令集</h3><table>
+<thead>
+<tr>
+<th style="text-align:left">指令</th>
+<th style="text-align:left">释义</th>
+<th style="text-align:left">用法</th>
+<th style="text-align:left">作用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">add</td>
+<td style="text-align:left">add</td>
+<td style="text-align:left">add $s1, $s2, $s3</td>
+<td style="text-align:left">$s1 = $s2 + $s3</td>
+</tr>
+<tr>
+<td style="text-align:left">lw</td>
+<td style="text-align:left">load word</td>
+<td style="text-align:left">lw $s1, 8($s2)</td>
+<td style="text-align:left">$s2中存放的地址称为基址，“8”为偏移量，<br>二者相加得到目标地址，取出目标地址中的值保存到$s1</td>
+</tr>
+<tr>
+<td style="text-align:left">sw</td>
+<td style="text-align:left">store word</td>
+<td style="text-align:left">sw $s1, 8($s2)</td>
+<td style="text-align:left">将$s1中的数据存储到8($s2)中</td>
+</tr>
+<tr>
+<td style="text-align:left">addi</td>
+<td style="text-align:left">add immediate</td>
+<td style="text-align:left">add $s1, $s2, 8</td>
+<td style="text-align:left">$s1 = $s2 + 8</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<p>EOF</p>
+
+
+                <hr>
+
+                
+
+                <ul class="pager">
+                    <!-- 定义临时变量过滤隐藏的page start -->
+                    
+                    
+                    
+                    
+                        
+                            
+                                
+                    
+                    <!-- 定义临时变量过滤隐藏的page end -->
+                    
+                    
+                        <li class="next">
+                            <a href="/2018/07/23/排序算法总结表/" data-toggle="tooltip" data-placement="top" title="排序算法总结表">
+                                Next Post
+                                <br>
+                                <span>排序算法总结表</span>
+                            </a>
+                        </li>
+                    
+                </ul>
+
+                
+
+                
+                <!-- disqus 评论框 start -->
+                <div class="comment">
+                    <div id="disqus_thread" class="disqus-thread"></div>
+                </div>
+                <!-- disqus 评论框 end -->
+                
+
+            </div>
+    <!-- Side Catalog Container -->
+        
+
+    <!-- Sidebar Container -->
+
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                       
+                          <a class="tag" href="/tags/#计算机组成原理" title="计算机组成原理">计算机组成原理</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+                <hr>
+                <h5>FRIENDS</h5>
+                <ul class="list-inline">
+
+                    
+                </ul>
+                
+            </div>
+
+        </div>
+    </div>
+</article>
+
+
+
+
+<!-- disqus 公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES * * */
+    var disqus_shortname = "joelrh-xyz";
+    var disqus_identifier = "http://joelrh.xyz/2018/07/24/一些计组的概念和缩写/";
+    var disqus_url = "http://joelrh.xyz/2018/07/24/一些计组的概念和缩写/";
+
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<!-- disqus 公共JS代码 end -->
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("https://cdn.bootcss.com/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'always',
+          placement: 'right',
+          icon: '#'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
 
     <!-- Footer -->
     <!-- Footer -->
