@@ -13,11 +13,11 @@
 
     <title>
         
-          2018-02-28 - Joel的博客 | Joel&#39;s Blog
+          PAT-1 - Joel的博客 | Joel&#39;s Blog
         
     </title>
 
-    <link rel="canonical" href="http://joelrh.xyz/2018/02/28/2018-02-28/">
+    <link rel="canonical" href="http://joelrh.xyz/2018/08/03/PAT-1/">
 
     <!-- Bootstrap Core CSS -->
     <link rel="stylesheet" href="/css/bootstrap.min.css">
@@ -165,14 +165,14 @@
                 <div class="post-heading">
                     <div class="tags">
                         
-                          <a class="tag" href="/tags/#diary" title="diary">diary</a>
+                          <a class="tag" href="/tags/#PAT" title="PAT">PAT</a>
                         
                     </div>
-                    <h1>2018-02-28</h1>
-                    <h2 class="subheading"></h2>
+                    <h1>PAT-1</h1>
+                    <h2 class="subheading">完-全-懵-逼</h2>
                     <span class="meta">
                         Posted by Joel on
-                        February 28,2018
+                        August 03,2018
                     </span>
                 </div>
             </div>
@@ -191,11 +191,23 @@
                 col-md-10 col-md-offset-1
                 post-container">
 
-                <p>滴，今日份健身打卡。</p>
-<p>深蹲加硬拉好累啊，卧推好累啊。</p>
-<p>说好的博客只写了一半。</p>
-<p>我要戒了吃鸡。</p>
-<p>说到做到。</p>
+                <p>今天开始刷PAT的题库了，争取一天两道题吧。</p>
+<h3 id="vs的使用"><a href="#vs的使用" class="headerlink" title="vs的使用"></a>vs的使用</h3><p>首先新建项目，没什么好说的，新建资源文件<code>data.txt</code></p>
+<p>在<code>main.cpp</code>添加</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">fropen(<span class="string">"data.txt"</span>, <span class="string">"r"</span>, <span class="built_in">stdin</span>);</span><br><span class="line"><span class="built_in">std</span>::ios::sync_with_stdio(<span class="literal">false</span>);</span><br></pre></td></tr></table></figure>
+<p>更改项目配置</p>
+<ol>
+<li>右击项目-&gt;属性-&gt;C/C++-&gt;SDL检查  改为否</li>
+<li>右击项目-&gt;属性-&gt;连接器-&gt;子系统  选控制台</li>
+</ol>
+<h3 id="1001"><a href="#1001" class="headerlink" title="1001"></a>1001</h3><p>没什么好说的，主要是熟悉了一下输入输出的写法。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">while</span> (<span class="built_in">cin</span> &gt;&gt; a &gt;&gt; b) &#123;</span><br><span class="line">    <span class="built_in">cout</span> &gt;&gt; <span class="string">""</span> &gt;&gt; <span class="built_in">endl</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="1002"><a href="#1002" class="headerlink" title="1002"></a>1002</h3><p>换成多项式相加了，最多10项，指数在0-1000之间。按照降幂排列</p>
+<p>首先读输入进来，这里有坑。。</p>
+<p>我觉得复杂的输入输出以后还是用<code>printf</code>、<code>scanf</code>来做。</p>
+<p>两个选择，要么用一个长度为1000的数组，要么用map，这里选择了用map。</p>
+<p>用到的操作：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 初始化</span></span><br><span class="line"><span class="built_in">map</span>&lt;<span class="keyword">int</span>, <span class="keyword">float</span>&gt; m;</span><br><span class="line"><span class="comment">// 插入</span></span><br><span class="line">m[index] = num;</span><br><span class="line"><span class="comment">// 迭代器</span></span><br><span class="line"><span class="built_in">map</span>&lt;<span class="keyword">int</span>, <span class="keyword">float</span>&gt;::reverse_iterator iter;</span><br><span class="line">iter = m.begin();</span><br><span class="line"><span class="comment">// 删除键值对</span></span><br><span class="line">m.erase(index)</span><br></pre></td></tr></table></figure>
 <hr>
 <p>EOF</p>
 
@@ -211,15 +223,12 @@
                     
                         
                             
-                            
-                        
-                            
-                            
-                        
-                            
                                 
                     
                     
+                        
+                            
+                            
                         
                             
                                 
@@ -227,19 +236,19 @@
                     <!-- 定义临时变量过滤隐藏的page end -->
                     
                         <li class="previous">
-                            <a href="/2018/03/10/学习java！/" data-toggle="tooltip" data-placement="top" title="学java！！！">
+                            <a href="/2018/08/04/PAT-2/" data-toggle="tooltip" data-placement="top" title="PAT-2">
                                 Previous
                                 <br>
-                                <span>学java！！！</span>
+                                <span>PAT-2</span>
                             </a>
                         </li>
                     
                     
                         <li class="next">
-                            <a href="/2018/02/28/JS-extend/" data-toggle="tooltip" data-placement="top" title="从extend看JS继承">
+                            <a href="/2018/07/24/一些计组的概念和缩写/" data-toggle="tooltip" data-placement="top" title="一些计组的概念和缩写">
                                 Next Post
                                 <br>
-                                <span>从extend看JS继承</span>
+                                <span>一些计组的概念和缩写</span>
                             </a>
                         </li>
                     
@@ -273,7 +282,7 @@
                     <h5><a href="/tags/">FEATURED TAGS</a></h5>
                     <div class="tags">
                        
-                          <a class="tag" href="/tags/#diary" title="diary">diary</a>
+                          <a class="tag" href="/tags/#PAT" title="PAT">PAT</a>
                         
                     </div>
                 </section>
@@ -301,8 +310,8 @@
 <script type="text/javascript">
     /* * * CONFIGURATION VARIABLES * * */
     var disqus_shortname = "joelrh-xyz";
-    var disqus_identifier = "http://joelrh.xyz/2018/02/28/2018-02-28/";
-    var disqus_url = "http://joelrh.xyz/2018/02/28/2018-02-28/";
+    var disqus_identifier = "http://joelrh.xyz/2018/08/03/PAT-1/";
+    var disqus_url = "http://joelrh.xyz/2018/08/03/PAT-1/";
 
     (function() {
         var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;

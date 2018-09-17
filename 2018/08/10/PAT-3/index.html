@@ -13,11 +13,11 @@
 
     <title>
         
-          2018-02-28 - Joel的博客 | Joel&#39;s Blog
+          PAT-3 - Joel的博客 | Joel&#39;s Blog
         
     </title>
 
-    <link rel="canonical" href="http://joelrh.xyz/2018/02/28/2018-02-28/">
+    <link rel="canonical" href="http://joelrh.xyz/2018/08/10/PAT-3/">
 
     <!-- Bootstrap Core CSS -->
     <link rel="stylesheet" href="/css/bootstrap.min.css">
@@ -165,14 +165,14 @@
                 <div class="post-heading">
                     <div class="tags">
                         
-                          <a class="tag" href="/tags/#diary" title="diary">diary</a>
+                          <a class="tag" href="/tags/#PAT" title="PAT">PAT</a>
                         
                     </div>
-                    <h1>2018-02-28</h1>
+                    <h1>PAT-3</h1>
                     <h2 class="subheading"></h2>
                     <span class="meta">
                         Posted by Joel on
-                        February 28,2018
+                        August 10,2018
                     </span>
                 </div>
             </div>
@@ -191,11 +191,76 @@
                 col-md-10 col-md-offset-1
                 post-container">
 
-                <p>滴，今日份健身打卡。</p>
-<p>深蹲加硬拉好累啊，卧推好累啊。</p>
-<p>说好的博客只写了一半。</p>
-<p>我要戒了吃鸡。</p>
-<p>说到做到。</p>
+                <h3 id="1007"><a href="#1007" class="headerlink" title="1007"></a>1007</h3><h4 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h4><p>经典DP算法了，最大子序列和问题。</p>
+<p>状态：F(k)为以A[k]为尾的最大和子序列</p>
+<p>状态转移方程：F(k) = max(F(k - 1) + A[k], A[k])</p>
+<h3 id="1008"><a href="#1008" class="headerlink" title="1008"></a>1008</h3><p>很弱智的题了…</p>
+<h3 id="1009"><a href="#1009" class="headerlink" title="1009"></a>1009</h3><p>也很弱智…</p>
+<p>注意当算出的系数为0时是不输出的即可</p>
+<h3 id="1010"><a href="#1010" class="headerlink" title="1010"></a>1010</h3><h4 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h4><p>把已知哪个数转成十进制，然后把未知那个数用不同进制转换直到大于已知数或等于已知数。</p>
+<h4 id="坑"><a href="#坑" class="headerlink" title="坑"></a>坑</h4><ol>
+<li>不同进制转换的结果是会溢出的，也就是说转换为10进制超出long的表示范围，变为负数。</li>
+<li>如果从最大那个数开始试进制会超时，所以得二分查找，于是二分查找最大的进制又成了问题…</li>
+<li>其实最大的进制就是给出的那个数的十进制的值</li>
+<li>最大的坑，长整型得用<code>long long</code></li>
+</ol>
+<h3 id="1011"><a href="#1011" class="headerlink" title="1011"></a>1011</h3><p>睿智题目…</p>
+<h3 id="1012"><a href="#1012" class="headerlink" title="1012"></a>1012</h3><h4 id="分析-1"><a href="#分析-1" class="headerlink" title="分析"></a>分析</h4><ol>
+<li>用结构体来保存每个学生的信息</li>
+<li>根据四个成绩分别做排序，每做一次排序记录下每个学生的排名。</li>
+<li>根据排名最高的那个确定最终的排名和对应的学科简写</li>
+<li>用exist数组来过滤不存在的ID</li>
+</ol>
+<h4 id="坑-1"><a href="#坑-1" class="headerlink" title="坑"></a>坑</h4><p>查询时候是根据ID来查，因此得建立个ID-&gt;位置的索引，因此exist数组在排完序之后再建比较好，用索引保存ID，数据项保存对应的索引。</p>
+<h4 id="知识点"><a href="#知识点" class="headerlink" title="知识点"></a>知识点</h4><p><code>sort()</code>函数的使用</p>
+<p><code>sort()</code>可以有2个参数或3个参数，分别是起始地址，终止地址和排序方法。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">int</span> arr[<span class="number">100</span>]</span><br><span class="line"></span><br><span class="line">sort(arr, arr + <span class="number">100</span>)</span><br></pre></td></tr></table></figure>
+<h3 id="1013"><a href="#1013" class="headerlink" title="1013"></a>1013</h3><h4 id="分析-2"><a href="#分析-2" class="headerlink" title="分析"></a>分析</h4><p>直觉上来看是生成树问题，所谓的城市被攻陷就是在图中去掉一个节点和与之关联的路径，然后对剩下的节点和路径生成树，形成n个子树，最终需要添加的路径为n -1</p>
+<ol>
+<li>使用邻接矩阵存储图，DFS或者BFS均可</li>
+<li>对每个节点进行一次“ban掉当前节点的遍历”，直到所有节点均被访问过，此时进行遍历的次数即为森林中树的数量，减一即为要添加的路径数</li>
+</ol>
+<h4 id="巨坑"><a href="#巨坑" class="headerlink" title="巨坑"></a>巨坑</h4><p>用<code>cin</code>读输入的话一定会有一个测试点超时…</p>
+<p>原因看<a href="1">这里</a></p>
+<p>简而言之就是，要加上这一句：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">std</span>::ios::sync_with_stdio(<span class="literal">false</span>);</span><br></pre></td></tr></table></figure>
+<p>好麻烦…所以再遇到这种情况还是<code>scanf</code>得了</p>
+<h3 id="1014"><a href="#1014" class="headerlink" title="1014"></a>1014</h3><h4 id="分析-3"><a href="#分析-3" class="headerlink" title="分析"></a>分析</h4><ol>
+<li>用结构体存储每一个元素的信息，包括要等待的时间，剩余的处理时间</li>
+<li>用数组存储所有的元素</li>
+<li>用数组储存所有的队列</li>
+<li>先把所有的队列填充满（如果可以），并求出队列中元素的等待时间</li>
+<li>将队头剩余处理时间最短的元素（可能有多个）出队，找出最短的队列，将没有入队的下一个元素入队（如果有的话）</li>
+<li>将所有队头元素的剩余等待时间-出队元素的剩余等待时间</li>
+<li>重复5-6直到所有元素都入过队</li>
+</ol>
+<h4 id="坑-2"><a href="#坑-2" class="headerlink" title="坑"></a>坑</h4><ol>
+<li>17：00的单子是要处理的</li>
+<li>有两个测试点一直过不了…弃疗了</li>
+</ol>
+<h3 id="1015"><a href="#1015" class="headerlink" title="1015"></a>1015</h3><h4 id="分析-4"><a href="#分析-4" class="headerlink" title="分析"></a>分析</h4><ol>
+<li>先把这个数转成目标进制，然后翻转后再转成十进制</li>
+<li>判定是否是素数，先用笨方法一个求余数试试会不会超时</li>
+</ol>
+<h4 id="坑-3"><a href="#坑-3" class="headerlink" title="坑"></a>坑</h4><ol>
+<li>1居然不算是素数</li>
+</ol>
+<h3 id="1016"><a href="#1016" class="headerlink" title="1016"></a>1016</h3><h4 id="分析-5"><a href="#分析-5" class="headerlink" title="分析"></a>分析</h4><ol>
+<li>用map&lt;人名，消费记录&gt;存储每个人的消费记录，这样就不用再对人名排序</li>
+<li>消费记录用map&lt;月份，记录&gt;存储，记录用结构体存储，分为两个字段<code>online</code>和<code>offline</code>，都是vector，输入读完后分别按时间排序</li>
+<li>遍历map，按照online中的时间来匹配计算</li>
+<li>然而怎么计算呢…起始时间的那一个小时应该单独算，结束时间的那一个小时也单独算，中间的遍历算</li>
+<li>会出现起始在上个月结束在下个月的情况吗…应该不会吧</li>
+</ol>
+<p>— 尴尬的分割线 —</p>
+<p>仔细读题后发现</p>
+<ol>
+<li>账单是一个月里的</li>
+<li>并不是从online和offline里来匹配，而是在时间顺序上找能对的上的…</li>
+<li>并且不是对于每个人找能对得上的，而是总体排序再找…</li>
+</ol>
+<p>这就很简单了，直接利用map的自排序特性，连排序都省了</p>
+<h3 id="1020"><a href="#1020" class="headerlink" title="1020"></a>1020</h3><p>给出树的前序遍历和中序遍历，求层次遍历</p>
 <hr>
 <p>EOF</p>
 
@@ -211,12 +276,6 @@
                     
                         
                             
-                            
-                        
-                            
-                            
-                        
-                            
                                 
                     
                     
@@ -227,19 +286,19 @@
                     <!-- 定义临时变量过滤隐藏的page end -->
                     
                         <li class="previous">
-                            <a href="/2018/03/10/学习java！/" data-toggle="tooltip" data-placement="top" title="学java！！！">
+                            <a href="/2018/08/15/2007考研英语/" data-toggle="tooltip" data-placement="top" title="2007考研英语">
                                 Previous
                                 <br>
-                                <span>学java！！！</span>
+                                <span>2007考研英语</span>
                             </a>
                         </li>
                     
                     
                         <li class="next">
-                            <a href="/2018/02/28/JS-extend/" data-toggle="tooltip" data-placement="top" title="从extend看JS继承">
+                            <a href="/2018/08/04/PAT-2/" data-toggle="tooltip" data-placement="top" title="PAT-2">
                                 Next Post
                                 <br>
-                                <span>从extend看JS继承</span>
+                                <span>PAT-2</span>
                             </a>
                         </li>
                     
@@ -273,7 +332,7 @@
                     <h5><a href="/tags/">FEATURED TAGS</a></h5>
                     <div class="tags">
                        
-                          <a class="tag" href="/tags/#diary" title="diary">diary</a>
+                          <a class="tag" href="/tags/#PAT" title="PAT">PAT</a>
                         
                     </div>
                 </section>
@@ -301,8 +360,8 @@
 <script type="text/javascript">
     /* * * CONFIGURATION VARIABLES * * */
     var disqus_shortname = "joelrh-xyz";
-    var disqus_identifier = "http://joelrh.xyz/2018/02/28/2018-02-28/";
-    var disqus_url = "http://joelrh.xyz/2018/02/28/2018-02-28/";
+    var disqus_identifier = "http://joelrh.xyz/2018/08/10/PAT-3/";
+    var disqus_url = "http://joelrh.xyz/2018/08/10/PAT-3/";
 
     (function() {
         var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;

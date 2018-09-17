@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="keyword"  content="">
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <title>
+        
+          经典同步问题 - Joel的博客 | Joel&#39;s Blog
+        
+    </title>
+
+    <link rel="canonical" href="http://joelrh.xyz/2018/09/05/经典同步问题/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/hux-blog.min.css">
+
+    <!-- Pygments Highlight CSS -->
+    <link rel="stylesheet" href="/css/highlight.css">
+
+    <!-- Custom Fonts -->
+    <!-- <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="https://cdn.staticfile.org/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+</head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Joel&#39;s Blog</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+
+                    
+
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/about/">About</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/archives/">Archives</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/tags/">Tags</a>
+                        </li>
+                        
+                    
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+    <!-- Main Content -->
+    
+<!-- Image to hack wechat -->
+<!-- <img src="http://joelrh.xyz/img/icon_wechat.png" width="0" height="0"> -->
+<!-- <img src="{{ site.baseurl }}/{% if page.header-img %}{{ page.header-img }}{% else %}{{ site.header-img }}{% endif %}" width="0" height="0"> -->
+
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        background-image: url('/img/home-bg.jpg')
+    }
+</style>
+<header class="intro-header" >
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <div class="tags">
+                        
+                          <a class="tag" href="/tags/#OS" title="OS">OS</a>
+                        
+                    </div>
+                    <h1>经典同步问题</h1>
+                    <h2 class="subheading"></h2>
+                    <span class="meta">
+                        Posted by Joel on
+                        September 05,2018
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+    <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                <h3 id="银弹"><a href="#银弹" class="headerlink" title="银弹"></a>银弹</h3><h4 id="关系分析"><a href="#关系分析" class="headerlink" title="关系分析"></a>关系分析</h4><p>找出有几个进程并分析他们之间的关系（互斥、同步、前驱）</p>
+<h4 id="整理思路"><a href="#整理思路" class="headerlink" title="整理思路"></a>整理思路</h4><p>根据进程操作流程找出PV操作的大致顺序</p>
+<h4 id="设置信号量"><a href="#设置信号量" class="headerlink" title="设置信号量"></a>设置信号量</h4><p>设置需要的信号量，设置初值，完善整理</p>
+<h3 id="生产者-消费者问题"><a href="#生产者-消费者问题" class="headerlink" title="生产者-消费者问题"></a>生产者-消费者问题</h3><h4 id="关系分析-1"><a href="#关系分析-1" class="headerlink" title="关系分析"></a>关系分析</h4><p>显然这里有两个进程，生产者与消费者，它们之间显然是同步关系，对缓冲池的使用则是互斥的</p>
+<h4 id="整理思路-amp-设置信号量"><a href="#整理思路-amp-设置信号量" class="headerlink" title="整理思路 &amp; 设置信号量"></a>整理思路 &amp; 设置信号量</h4><ol>
+<li><p>生产者放入数据前应检查缓冲池是否满，此为信号量1，放入后还应更新信号量2</p>
+</li>
+<li><p>消费者取出数据前应检查缓冲池是否空，此为信号量2</p>
+</li>
+<li>信号量mutex用来实现互斥访问缓冲池</li>
+</ol>
+<h4 id="伪代码"><a href="#伪代码" class="headerlink" title="伪代码"></a>伪代码</h4><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">semaphore mutex = <span class="number">1</span> <span class="comment">// 互斥锁，初值为1，代表可以访问</span></span><br><span class="line">semaphore empty = n <span class="comment">// 空缓存的数量，初值为n</span></span><br><span class="line">semaphore full = <span class="number">0</span> <span class="comment">// 填满的缓存的数量，初值为0</span></span><br><span class="line"></span><br><span class="line">process producer() &#123;</span><br><span class="line">    <span class="keyword">while</span>(<span class="literal">true</span>) &#123;</span><br><span class="line">        create product;</span><br><span class="line">        P(empty); <span class="comment">// 获取空缓冲区</span></span><br><span class="line">        P(mutex); <span class="comment">// 申请访问缓冲区</span></span><br><span class="line">        load product into buffer;</span><br><span class="line">        V(mutex); <span class="comment">// 释放缓冲区控制权</span></span><br><span class="line">        V(full); <span class="comment">// 满缓冲区数+1</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function">process <span class="title">consumer</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">while</span>(<span class="literal">true</span>) &#123;</span><br><span class="line">        P(full);</span><br><span class="line">        P(mutex);</span><br><span class="line">        get product from buffer;</span><br><span class="line">        V(mutex);</span><br><span class="line">        V(empty);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="变种生产者-消费者问题"><a href="#变种生产者-消费者问题" class="headerlink" title="变种生产者-消费者问题"></a>变种生产者-消费者问题</h3><h4 id="关系分析-2"><a href="#关系分析-2" class="headerlink" title="关系分析"></a>关系分析</h4><p>显然有四个进程，儿子、爸爸、女儿、妈妈，爸爸和妈妈对于盘子的操作是互斥的，儿子与爸爸、女儿与妈妈分别是同步的</p>
+<h4 id="整理思路-amp-设置信号量-1"><a href="#整理思路-amp-设置信号量-1" class="headerlink" title="整理思路 &amp; 设置信号量"></a>整理思路 &amp; 设置信号量</h4><ol>
+<li>首先对盘子的访问是互斥的，即为信号量<code>plate</code></li>
+<li>爸爸与儿子间需要一个信号量<code>orange</code>实现同步</li>
+<li>同理妈妈与女儿间需要一个信号量<code>apple</code>实现同步</li>
+<li>儿子女儿之间不需要互斥</li>
+</ol>
+<h4 id="伪代码-1"><a href="#伪代码-1" class="headerlink" title="伪代码"></a>伪代码</h4><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line">semaphore plate = <span class="number">1</span>; <span class="comment">// 互斥锁，初始值为1，表示可以放水果</span></span><br><span class="line">semaphore orange = <span class="number">0</span>;</span><br><span class="line">semaphore apple = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line"><span class="function">process <span class="title">dad</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">while</span>(<span class="literal">true</span>) &#123;</span><br><span class="line">        prepare orange;</span><br><span class="line">        P(plate);</span><br><span class="line">        put orange on plate;</span><br><span class="line">        V(orange);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function">process <span class="title">mom</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">while</span>(<span class="literal">true</span>) &#123;</span><br><span class="line">        prepare apple;</span><br><span class="line">        P(plate);</span><br><span class="line">        put apple on plate;</span><br><span class="line">        V(apple);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function">process <span class="title">son</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">while</span>(<span class="literal">true</span>) &#123;</span><br><span class="line">        P(orange);</span><br><span class="line">        take orange from plate;</span><br><span class="line">        V(plate);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function">process <span class="title">daughter</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">while</span>(<span class="literal">true</span>) &#123;</span><br><span class="line">        P(apple);</span><br><span class="line">        take apple from plate;</span><br><span class="line">        V(plate);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="读者写者问题"><a href="#读者写者问题" class="headerlink" title="读者写者问题"></a>读者写者问题</h3><h4 id="关系分析-3"><a href="#关系分析-3" class="headerlink" title="关系分析"></a>关系分析</h4><p>读者之间不需要同步，写者与写者之间，写者与读者之间是互斥的</p>
+<h4 id="整理思路-amp-设置信号量-2"><a href="#整理思路-amp-设置信号量-2" class="headerlink" title="整理思路 &amp; 设置信号量"></a>整理思路 &amp; 设置信号量</h4><ol>
+<li><p>读写文件显然是互斥的，用互斥锁<code>rw</code>来实现</p>
+</li>
+<li><p>多个读者可以同时访问文件，而只要有读者在写者就不能访问文件，说明写者与读者之间存在一个计数器<code>count</code>来实现控制<code>rw</code>实现互斥</p>
+</li>
+<li><p>不同读者之间访问计数器应是互斥的，用信号量<code>mutex</code>实现</p>
+</li>
+</ol>
+<h4 id="伪代码-2"><a href="#伪代码-2" class="headerlink" title="伪代码"></a>伪代码</h4><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">semaphore mutex = <span class="number">1</span>;</span><br><span class="line">semaphore rw = <span class="number">1</span>;</span><br><span class="line">semaphore count = <span class="number">0</span>;</span><br><span class="line">semaphore w = <span class="number">1</span>; <span class="comment">// 实现写优先</span></span><br><span class="line"></span><br><span class="line"><span class="function">process <span class="title">writer</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    P(w); <span class="comment">// 实现写优先</span></span><br><span class="line">    P(rw);</span><br><span class="line">    write file;</span><br><span class="line">    V(rw);</span><br><span class="line">    V(w); <span class="comment">// 实现写优先</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function">process <span class="title">reader</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    P(w); <span class="comment">// 实现写优先</span></span><br><span class="line">    P(mutex);</span><br><span class="line">    <span class="keyword">if</span> (count == <span class="number">0</span>) &#123;</span><br><span class="line">        P(rw);</span><br><span class="line">    &#125;</span><br><span class="line">    count++;</span><br><span class="line">    V(mutex);</span><br><span class="line">    V(w);<span class="comment">// 实现写优先</span></span><br><span class="line">    read file;</span><br><span class="line">    P(mutex);</span><br><span class="line">    count--;</span><br><span class="line">    <span class="keyword">if</span> (count == <span class="number">0</span>) &#123;</span><br><span class="line">        V(rw);</span><br><span class="line">    &#125;</span><br><span class="line">    V(mutex);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="哲学家就餐问题"><a href="#哲学家就餐问题" class="headerlink" title="哲学家就餐问题"></a>哲学家就餐问题</h3><h4 id="关系分析-4"><a href="#关系分析-4" class="headerlink" title="关系分析"></a>关系分析</h4><p>显然相互之间对叉子的访问是互斥的</p>
+<h4 id="整理思路-amp-设置信号量-3"><a href="#整理思路-amp-设置信号量-3" class="headerlink" title="整理思路 &amp; 设置信号量"></a>整理思路 &amp; 设置信号量</h4><ol>
+<li>每个叉子用一个信号量实现互斥访问，即有信号量数组<code>forkes[5]</code></li>
+<li>当两边的叉子都可用时才允许拿起叉子，用互斥锁<code>mutex</code>实现</li>
+</ol>
+<h4 id="伪代码-3"><a href="#伪代码-3" class="headerlink" title="伪代码"></a>伪代码</h4><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 这一实现其实有性能问题，因为同一时刻只能有一人吃，而实际上最多可以有两人</span></span><br><span class="line">semaphore forkes[<span class="number">5</span>];</span><br><span class="line">semaphore mutex = <span class="number">1</span>;</span><br><span class="line"></span><br><span class="line"><span class="function">process <span class="title">Pi</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">while</span> (<span class="literal">true</span>) &#123;</span><br><span class="line">        P(mutex);</span><br><span class="line">        P(forkes[i]);</span><br><span class="line">        P(forkes[(i + <span class="number">1</span>) % <span class="number">5</span>]);</span><br><span class="line">        V(mutex);</span><br><span class="line">        eat;</span><br><span class="line">        V(forkes[i]);</span><br><span class="line">        V(forkes[(i + <span class="number">1</span>) % <span class="number">5</span>]);</span><br><span class="line">        think;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="吸烟者问题"><a href="#吸烟者问题" class="headerlink" title="吸烟者问题"></a>吸烟者问题</h3><h4 id="关系分析-5"><a href="#关系分析-5" class="headerlink" title="关系分析"></a>关系分析</h4><p>四个进程，三个抽烟者，一个供应者，供应者供货与吸烟者卷烟的应同步，供应者供货与吸烟者吸烟应互斥</p>
+<h4 id="整理思路-amp-设置信号量-4"><a href="#整理思路-amp-设置信号量-4" class="headerlink" title="整理思路 &amp; 设置信号量"></a>整理思路 &amp; 设置信号量</h4><ol>
+<li>三个吸烟者卷烟需要三个信号量<code>offer1-3</code>来与供应者同步</li>
+<li>抽烟需要一个信号量与供应者实现互斥</li>
+</ol>
+<h4 id="伪代码-4"><a href="#伪代码-4" class="headerlink" title="伪代码"></a>伪代码</h4><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">semaphore s1 = <span class="number">0</span>, s2 = <span class="number">0</span>, s3 = <span class="number">0</span>, mutex = <span class="number">1</span>;</span><br><span class="line"></span><br><span class="line"><span class="function">process <span class="title">producer</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    P(mutex);</span><br><span class="line">    V(oneOf(s1, s2, s3));</span><br><span class="line">    V(mutex);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function">process <span class="title">smoker1</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    P(s1);</span><br><span class="line">    make();</span><br><span class="line">    P(mutex);</span><br><span class="line">    smoke();</span><br><span class="line">    V(mutex);</span><br><span class="line">&#125;</span><br><span class="line"><span class="function">process <span class="title">smoker2</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    P(s2);</span><br><span class="line">    make();</span><br><span class="line">    P(mutex);</span><br><span class="line">    smoke();</span><br><span class="line">    V(mutex);</span><br><span class="line">&#125;</span><br><span class="line"><span class="function">process <span class="title">smoker3</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    P(s3);</span><br><span class="line">    make();</span><br><span class="line">    P(mutex);</span><br><span class="line">    smoke();</span><br><span class="line">    V(mutex);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<hr>
+<p>EOF</p>
+
+
+                <hr>
+
+                
+
+                <ul class="pager">
+                    <!-- 定义临时变量过滤隐藏的page start -->
+                    
+                    
+                    
+                        
+                            
+                                
+                    
+                    
+                        
+                            
+                            
+                        
+                            
+                                
+                    
+                    <!-- 定义临时变量过滤隐藏的page end -->
+                    
+                        <li class="previous">
+                            <a href="/2018/09/05/马原拾遗/" data-toggle="tooltip" data-placement="top" title="马原拾遗">
+                                Previous
+                                <br>
+                                <span>马原拾遗</span>
+                            </a>
+                        </li>
+                    
+                    
+                        <li class="next">
+                            <a href="/2018/08/28/操作系统拾遗/" data-toggle="tooltip" data-placement="top" title="操作系统拾遗">
+                                Next Post
+                                <br>
+                                <span>操作系统拾遗</span>
+                            </a>
+                        </li>
+                    
+                </ul>
+
+                
+
+                
+                <!-- disqus 评论框 start -->
+                <div class="comment">
+                    <div id="disqus_thread" class="disqus-thread"></div>
+                </div>
+                <!-- disqus 评论框 end -->
+                
+
+            </div>
+    <!-- Side Catalog Container -->
+        
+
+    <!-- Sidebar Container -->
+
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                       
+                          <a class="tag" href="/tags/#OS" title="OS">OS</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+                <hr>
+                <h5>FRIENDS</h5>
+                <ul class="list-inline">
+
+                    
+                </ul>
+                
+            </div>
+
+        </div>
+    </div>
+</article>
+
+
+
+
+<!-- disqus 公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES * * */
+    var disqus_shortname = "joelrh-xyz";
+    var disqus_identifier = "http://joelrh.xyz/2018/09/05/经典同步问题/";
+    var disqus_url = "http://joelrh.xyz/2018/09/05/经典同步问题/";
+
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<!-- disqus 公共JS代码 end -->
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("https://cdn.bootcss.com/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'always',
+          placement: 'right',
+          icon: '#'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
+
+    <!-- Footer -->
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                
+                
+                
+
+                
+
+                
+
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Joel&#39;s Blog 2018 
+                    <br>
+                    Theme by <a href="http://huangxuan.me">Hux</a> 
+                    <span style="display: inline-block; margin: 0 5px;">
+                        <i class="fa fa-heart"></i>
+                    </span> 
+                    Ported by <a href="http://blog.kaijun.rocks">Kaijun</a> | 
+                    <!-- <iframe
+                        style="margin-left: 2px; margin-bottom:-5px;"
+                        frameborder="0" scrolling="0" width="91px" height="20px"
+                        src="https://ghbtns.com/github-btn.html?user=kaijun&repo=hexo-theme-huxblog&type=star&count=true" >
+                    </iframe> -->
+                    <a href="http://joelrh.xyz">Joel</a>
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/hux-blog.min.js"></script>
+
+<!-- 可爱的颜文字脚本 -->
+<script>
+    (() => {
+        const faces = [
+            '(。_。)',
+            '(;´༎ຶД༎ຶ`)',
+            '(°ー°〃)',
+            '_(:з」∠)_',
+            '_(•̀ω•́ 」∠)_',
+            '(:3[▓▓]',
+            '.._:(´_`」 ∠):_ ...',
+            '(ーωー*＊)оΟ〇'
+        ]
+        const title = document.title
+        const len = faces.length
+        document.addEventListener('visibilitychange', () => {
+            const face = faces[Math.floor(Math.random() * len)]
+            if (document.visibilityState=='hidden') {
+                document.title = `${face} ${title}`
+            } else {
+                setTimeout(() => document.title = title, 800)
+                document.title = '．．．．．．'
+            }
+        })
+    })()
+</script>
+
+<!-- 根据页面mathjax变量决定是否加载MathJax数学公式js -->
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- 
+     Because of the native support for backtick-style fenced code blocks 
+     right within the Markdown is landed in Github Pages, 
+     From V1.6, There is no need for Highlight.js, 
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0  
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/    
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("http://joelrh.xyz/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("https://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+
+
+
+<!-- Baidu Tongji -->
+
+
+<!-- Side Catalog -->
+
+
+
+
+
+<!-- Image to hack wechat -->
+<img src="http://joelrh.xyz/img/icon_wechat.png" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>

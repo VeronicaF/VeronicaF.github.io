@@ -196,6 +196,7 @@
 <p>机器字长：一次整数运算能处理的二进制数据的位数，通常等于内部寄存器大小</p>
 <p>数据字长：数据总线一次能并行传送数据的位数</p>
 <p>吞吐率：系统在单位时间内处理请求的数量</p>
+<p>异或：⊕，XOR，相同得零不同得1</p>
 <h3 id="缩写"><a href="#缩写" class="headerlink" title="缩写"></a>缩写</h3><h4 id="各种寄存器"><a href="#各种寄存器" class="headerlink" title="各种寄存器"></a>各种寄存器</h4><p>PC：program counter，程序计数器</p>
 <p>IR：instruction register，指令寄存器</p>
 <p>MAR：memory address register，地址寄存器，存储地址</p>
@@ -204,42 +205,30 @@
 <p>MFLOPS：mega Floating-point Operations Per Second，每秒百万次浮点运算</p>
 <p>CPI：clock cycle per instruction，每条指令平均每条指令的时钟周期数</p>
 <p>IPC：instructions per clock cycle，每个时钟周期执行的指令数</p>
-<h3 id="MIPS指令集"><a href="#MIPS指令集" class="headerlink" title="MIPS指令集"></a>MIPS指令集</h3><table>
-<thead>
-<tr>
-<th style="text-align:left">指令</th>
-<th style="text-align:left">释义</th>
-<th style="text-align:left">用法</th>
-<th style="text-align:left">作用</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left">add</td>
-<td style="text-align:left">add</td>
-<td style="text-align:left">add $s1, $s2, $s3</td>
-<td style="text-align:left">$s1 = $s2 + $s3</td>
-</tr>
-<tr>
-<td style="text-align:left">lw</td>
-<td style="text-align:left">load word</td>
-<td style="text-align:left">lw $s1, 8($s2)</td>
-<td style="text-align:left">$s2中存放的地址称为基址，“8”为偏移量，<br>二者相加得到目标地址，取出目标地址中的值保存到$s1</td>
-</tr>
-<tr>
-<td style="text-align:left">sw</td>
-<td style="text-align:left">store word</td>
-<td style="text-align:left">sw $s1, 8($s2)</td>
-<td style="text-align:left">将$s1中的数据存储到8($s2)中</td>
-</tr>
-<tr>
-<td style="text-align:left">addi</td>
-<td style="text-align:left">add immediate</td>
-<td style="text-align:left">add $s1, $s2, 8</td>
-<td style="text-align:left">$s1 = $s2 + 8</td>
-</tr>
-</tbody>
-</table>
+<h3 id="运算器"><a href="#运算器" class="headerlink" title="运算器"></a>运算器</h3><ol>
+<li>算数逻辑单元ALU</li>
+<li>暂存寄存器</li>
+<li>累加寄存器ACC</li>
+<li>通用寄存器组</li>
+<li>程序状态字寄存器PSW</li>
+<li>移位器</li>
+<li>计数器CT</li>
+</ol>
+<h3 id="控制器"><a href="#控制器" class="headerlink" title="控制器"></a>控制器</h3><ol>
+<li>程序计数器PC</li>
+<li>指令寄存器IR</li>
+<li>存储器地址寄存器MAR</li>
+<li>存储器数据寄存器MDR</li>
+<li>指令译码器</li>
+<li>时序系统</li>
+<li>微操作信号发生器</li>
+</ol>
+<h3 id="各种周期"><a href="#各种周期" class="headerlink" title="各种周期"></a>各种周期</h3><ol>
+<li>指令周期：CPU取出并执行一条指令的全部时间</li>
+<li>机器周期：通常为主存周期</li>
+<li>主存周期：也就是存储周期，指连续两次独立的读或写操作的最小时间间隔</li>
+<li>时钟周期：计算机主时钟的周期时间，等于主频的倒数，对应完成一个微操作的时间</li>
+</ol>
 <hr>
 <p>EOF</p>
 
@@ -257,6 +246,8 @@
                             
                             
                         
+                            
+                                
                     
                     
                         
@@ -264,6 +255,14 @@
                                 
                     
                     <!-- 定义临时变量过滤隐藏的page end -->
+                    
+                        <li class="previous">
+                            <a href="/2018/08/03/PAT-1/" data-toggle="tooltip" data-placement="top" title="PAT-1">
+                                Previous
+                                <br>
+                                <span>PAT-1</span>
+                            </a>
+                        </li>
                     
                     
                         <li class="next">

@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="keyword"  content="">
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <title>
+        
+          PAT-2 - Joel的博客 | Joel&#39;s Blog
+        
+    </title>
+
+    <link rel="canonical" href="http://joelrh.xyz/2018/08/04/PAT-2/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/hux-blog.min.css">
+
+    <!-- Pygments Highlight CSS -->
+    <link rel="stylesheet" href="/css/highlight.css">
+
+    <!-- Custom Fonts -->
+    <!-- <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="https://cdn.staticfile.org/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+</head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Joel&#39;s Blog</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+
+                    
+
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/about/">About</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/archives/">Archives</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/tags/">Tags</a>
+                        </li>
+                        
+                    
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+    <!-- Main Content -->
+    
+<!-- Image to hack wechat -->
+<!-- <img src="http://joelrh.xyz/img/icon_wechat.png" width="0" height="0"> -->
+<!-- <img src="{{ site.baseurl }}/{% if page.header-img %}{{ page.header-img }}{% else %}{{ site.header-img }}{% endif %}" width="0" height="0"> -->
+
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        background-image: url('/img/home-bg.jpg')
+    }
+</style>
+<header class="intro-header" >
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <div class="tags">
+                        
+                          <a class="tag" href="/tags/#PAT" title="PAT">PAT</a>
+                        
+                    </div>
+                    <h1>PAT-2</h1>
+                    <h2 class="subheading"></h2>
+                    <span class="meta">
+                        Posted by Joel on
+                        August 04,2018
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+    <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                <h3 id="1003"><a href="#1003" class="headerlink" title="1003"></a>1003</h3><p>题目有点难读，读懂之后就很简单了，加权图的最短路径问题嘛。</p>
+<p>Dijkstra算法怼之。</p>
+<p>第一反应是用path数组记录下所有的最短路径，一遍Dijkstra结束后再根据path数组反求最短路径条数和最短路径中点权最大的那些路径。</p>
+<p>然而这样子白白增加了复杂度，因为题目并没有要求最短路径的具体路径，实际上在Dijkstra算法过程中就可以计算出想要的两个值。</p>
+<h4 id="坑"><a href="#坑" class="headerlink" title="坑"></a>坑</h4><ol>
+<li>C艹貌似支持用变量里的值来初始化一个数组？但是在ide里无法调试</li>
+<li>图的存储使用邻接矩阵</li>
+<li>做好一致化，别特么的搞很多特例</li>
+</ol>
+<p>第一个坑是mac下的…用visual studio没这坑</p>
+<h4 id="知识点"><a href="#知识点" class="headerlink" title="知识点"></a>知识点</h4><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> arr[<span class="number">10</span>];</span><br><span class="line">fill(arr[<span class="number">0</span>], arr[<span class="number">0</span>] + <span class="number">10</span>, <span class="number">666</span>);</span><br></pre></td></tr></table></figure>
+<h4 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h4><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"1003.h"</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">p1003</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> city_num, road_num, from, target,</span><br><span class="line">            weight, count[<span class="number">510</span>],</span><br><span class="line">            INFINITY = <span class="number">99999</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 读第一行输入</span></span><br><span class="line">    <span class="built_in">cin</span> &gt;&gt; city_num &gt;&gt; road_num &gt;&gt; from &gt;&gt; target;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// arr保存最终的边权</span></span><br><span class="line">    <span class="keyword">int</span> dis[<span class="number">510</span>];</span><br><span class="line">    <span class="comment">// p保存最终每个节点的点权</span></span><br><span class="line">    <span class="keyword">int</span> p[<span class="number">510</span>];</span><br><span class="line">    <span class="comment">// roads是保存图的邻接矩阵</span></span><br><span class="line">    <span class="keyword">int</span> roads[<span class="number">510</span>][<span class="number">510</span>];</span><br><span class="line">    <span class="comment">// 标志每个节点是否被访问过</span></span><br><span class="line">    <span class="keyword">bool</span> visit[<span class="number">510</span>];</span><br><span class="line">    <span class="comment">// value保存每个节点的点权</span></span><br><span class="line">    <span class="keyword">int</span> value[<span class="number">510</span>];</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; city_num; i++) &#123;</span><br><span class="line">        <span class="comment">// arr数组初始值为无穷</span></span><br><span class="line">        dis[i] = INFINITY;</span><br><span class="line">        <span class="comment">// 将所有节点标记为未访问</span></span><br><span class="line">        visit[i] = <span class="literal">false</span>;</span><br><span class="line">        <span class="built_in">cin</span> &gt;&gt; value[i];</span><br><span class="line">        p[i] = value[i];</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    fill(roads[<span class="number">0</span>], roads[<span class="number">0</span>] + <span class="number">510</span> * <span class="number">510</span>, INFINITY);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">int</span> a, b, c;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; road_num; i++) &#123;</span><br><span class="line">        <span class="built_in">cin</span> &gt;&gt; a &gt;&gt; b &gt;&gt; c;</span><br><span class="line">        roads[b][a] = roads[a][b] = c;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    dis[from] = <span class="number">0</span>;</span><br><span class="line">    count[from] = <span class="number">1</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = city_num; i &gt; <span class="number">0</span>; i--) &#123;</span><br><span class="line">        <span class="comment">// 找出未被确认的节点中值最小的那个</span></span><br><span class="line">        <span class="keyword">int</span> index = <span class="number">-1</span>, min = INFINITY;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; city_num; i++) &#123;</span><br><span class="line">            <span class="keyword">if</span> (!visit[i] &amp;&amp; dis[i] &lt; min) &#123;</span><br><span class="line">                min = dis[i];</span><br><span class="line">                index = i;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (index == <span class="number">-1</span>) &#123;</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        visit[index] = <span class="literal">true</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; city_num; j++) &#123;</span><br><span class="line">            weight = roads[index][j];</span><br><span class="line">            <span class="comment">// 更新路径和点权</span></span><br><span class="line">            <span class="keyword">if</span> (!visit[j] &amp;&amp; weight != INFINITY) &#123;</span><br><span class="line">                <span class="keyword">if</span> (dis[index] + weight &lt; dis[j]) &#123;</span><br><span class="line">                    dis[j] = dis[index] + weight;</span><br><span class="line">                    p[j] = p[index] + value[j];</span><br><span class="line">                    count[j] = count[index];</span><br><span class="line">                &#125; <span class="keyword">else</span> <span class="keyword">if</span> (dis[index] + weight == dis[j]) &#123;</span><br><span class="line">                    count[j] += count[index];</span><br><span class="line">                    <span class="keyword">if</span> (p[j] &lt; p[index] + value[j]) &#123;</span><br><span class="line">                        p[j] = p[index] + value[j];</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt; count[target] &lt;&lt; <span class="string">" "</span> &lt;&lt; p[target];</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="1004"><a href="#1004" class="headerlink" title="1004"></a>1004</h3><p>显然是考察树的遍历，那么我要先定义树这个数据结构吗…</p>
+<p>显然是不需要的，只要跟上一题一样把输入读进来用树的存储结构存好然后直接遍历就ok。</p>
+<p>那么可以有三种存储结构，双亲表示，孩子表示和二叉链表，考虑到输入只给出了孩子与双亲的关系，而且我们要从双亲获取所有孩子，那么用孩子表示法比较好。</p>
+<p>遍历方法<code>DFS</code>或<code>BFS</code>均可。</p>
+<p>用二维数组存储树。</p>
+<h4 id="知识点-1"><a href="#知识点-1" class="headerlink" title="知识点"></a>知识点</h4><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;vector&gt;</span></span></span><br><span class="line"><span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; v[<span class="number">100</span>]; <span class="comment">// 一个长度为100的数组，每个元素都是一个vector</span></span><br><span class="line">max(a, b); <span class="comment">// 求a，b中的最大值</span></span><br></pre></td></tr></table></figure>
+<h4 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h4><p>解题步骤：</p>
+<ol>
+<li>看懂题目</li>
+<li>处理输入，保存为合适的存储结构</li>
+<li>设计合适的算法</li>
+<li>处理输出</li>
+</ol>
+<p>思路要清晰。谋定而后动。</p>
+<h4 id="代码-1"><a href="#代码-1" class="headerlink" title="代码"></a>代码</h4><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;vector&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;queue&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"></span><br><span class="line"><span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; tree[<span class="number">100</span>];</span><br><span class="line"><span class="built_in">queue</span>&lt;<span class="keyword">int</span>&gt; q1;</span><br><span class="line"><span class="keyword">int</span> record[<span class="number">100</span>], maxDepth = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">DFS</span><span class="params">(<span class="keyword">int</span> index, <span class="keyword">int</span> depth)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (tree[index].size() == <span class="number">0</span>) &#123;</span><br><span class="line">        record[depth]++;</span><br><span class="line">        maxDepth = max(maxDepth, depth);</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; tree[index].size(); i++) &#123;</span><br><span class="line">        DFS(tree[index][i], depth + <span class="number">1</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 对某个节点进行广度优先遍历</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">BFS</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    q1.push(<span class="number">1</span>);</span><br><span class="line">    <span class="keyword">int</span> index, size, cnt;</span><br><span class="line">    <span class="keyword">while</span>(!q1.empty()) &#123;</span><br><span class="line">        cnt = <span class="number">0</span>;</span><br><span class="line">        size = q1.size();</span><br><span class="line">        <span class="keyword">while</span> (cnt &lt; size) &#123;</span><br><span class="line">            index = q1.front();</span><br><span class="line">            q1.pop();</span><br><span class="line">            cnt++;</span><br><span class="line">            <span class="keyword">if</span> (tree[index].size() == <span class="number">0</span>) &#123;</span><br><span class="line">                record[maxDepth]++;</span><br><span class="line">                <span class="keyword">continue</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; tree[index].size(); i++) &#123;</span><br><span class="line">                q1.push(tree[index][i]);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        maxDepth++;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    freopen(<span class="string">"/Users/fengtao/CLionProjects/PAT/data"</span>, <span class="string">"r"</span>, <span class="built_in">stdin</span>);</span><br><span class="line">    <span class="keyword">int</span> N, M, NODE;</span><br><span class="line">    <span class="keyword">int</span> ID, K;</span><br><span class="line"></span><br><span class="line">    <span class="built_in">cin</span> &gt;&gt; N &gt;&gt; M;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; M; i++) &#123;</span><br><span class="line">        <span class="built_in">cin</span> &gt;&gt; ID &gt;&gt; K;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; K; j++) &#123;</span><br><span class="line">            <span class="built_in">cin</span> &gt;&gt; NODE;</span><br><span class="line">            tree[ID].push_back(NODE);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"><span class="comment">//    DFS(1, 0);</span></span><br><span class="line">    BFS();</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; maxDepth; i++) &#123;</span><br><span class="line">        i != <span class="number">0</span> &amp;&amp; <span class="built_in">cout</span> &lt;&lt; <span class="string">" "</span>;</span><br><span class="line">        <span class="built_in">cout</span> &lt;&lt; record[i];</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="1005"><a href="#1005" class="headerlink" title="1005"></a>1005</h3><p>这题看起来好蠢…</p>
+<p>然而事情并不简单</p>
+<h4 id="坑-1"><a href="#坑-1" class="headerlink" title="坑"></a>坑</h4><p>输入最大数为<code>10^100</code>，所以不管用什么整型来接收都会发生溢出，因此应该用字符串来接收</p>
+<h4 id="知识点-2"><a href="#知识点-2" class="headerlink" title="知识点"></a>知识点</h4><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">to_string(<span class="number">12345</span>); <span class="comment">// 将整型转换为字符串</span></span><br></pre></td></tr></table></figure>
+<h3 id="1006"><a href="#1006" class="headerlink" title="1006"></a>1006</h3><p>这题也不难，直接怼</p>
+<hr>
+<p>EOF</p>
+
+
+                <hr>
+
+                
+
+                <ul class="pager">
+                    <!-- 定义临时变量过滤隐藏的page start -->
+                    
+                    
+                    
+                        
+                            
+                                
+                    
+                    
+                        
+                            
+                                
+                    
+                    <!-- 定义临时变量过滤隐藏的page end -->
+                    
+                        <li class="previous">
+                            <a href="/2018/08/10/PAT-3/" data-toggle="tooltip" data-placement="top" title="PAT-3">
+                                Previous
+                                <br>
+                                <span>PAT-3</span>
+                            </a>
+                        </li>
+                    
+                    
+                        <li class="next">
+                            <a href="/2018/08/03/PAT-1/" data-toggle="tooltip" data-placement="top" title="PAT-1">
+                                Next Post
+                                <br>
+                                <span>PAT-1</span>
+                            </a>
+                        </li>
+                    
+                </ul>
+
+                
+
+                
+                <!-- disqus 评论框 start -->
+                <div class="comment">
+                    <div id="disqus_thread" class="disqus-thread"></div>
+                </div>
+                <!-- disqus 评论框 end -->
+                
+
+            </div>
+    <!-- Side Catalog Container -->
+        
+
+    <!-- Sidebar Container -->
+
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                       
+                          <a class="tag" href="/tags/#PAT" title="PAT">PAT</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+                <hr>
+                <h5>FRIENDS</h5>
+                <ul class="list-inline">
+
+                    
+                </ul>
+                
+            </div>
+
+        </div>
+    </div>
+</article>
+
+
+
+
+<!-- disqus 公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES * * */
+    var disqus_shortname = "joelrh-xyz";
+    var disqus_identifier = "http://joelrh.xyz/2018/08/04/PAT-2/";
+    var disqus_url = "http://joelrh.xyz/2018/08/04/PAT-2/";
+
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<!-- disqus 公共JS代码 end -->
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("https://cdn.bootcss.com/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'always',
+          placement: 'right',
+          icon: '#'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
+
+    <!-- Footer -->
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                
+                
+                
+
+                
+
+                
+
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Joel&#39;s Blog 2018 
+                    <br>
+                    Theme by <a href="http://huangxuan.me">Hux</a> 
+                    <span style="display: inline-block; margin: 0 5px;">
+                        <i class="fa fa-heart"></i>
+                    </span> 
+                    Ported by <a href="http://blog.kaijun.rocks">Kaijun</a> | 
+                    <!-- <iframe
+                        style="margin-left: 2px; margin-bottom:-5px;"
+                        frameborder="0" scrolling="0" width="91px" height="20px"
+                        src="https://ghbtns.com/github-btn.html?user=kaijun&repo=hexo-theme-huxblog&type=star&count=true" >
+                    </iframe> -->
+                    <a href="http://joelrh.xyz">Joel</a>
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/hux-blog.min.js"></script>
+
+<!-- 可爱的颜文字脚本 -->
+<script>
+    (() => {
+        const faces = [
+            '(。_。)',
+            '(;´༎ຶД༎ຶ`)',
+            '(°ー°〃)',
+            '_(:з」∠)_',
+            '_(•̀ω•́ 」∠)_',
+            '(:3[▓▓]',
+            '.._:(´_`」 ∠):_ ...',
+            '(ーωー*＊)оΟ〇'
+        ]
+        const title = document.title
+        const len = faces.length
+        document.addEventListener('visibilitychange', () => {
+            const face = faces[Math.floor(Math.random() * len)]
+            if (document.visibilityState=='hidden') {
+                document.title = `${face} ${title}`
+            } else {
+                setTimeout(() => document.title = title, 800)
+                document.title = '．．．．．．'
+            }
+        })
+    })()
+</script>
+
+<!-- 根据页面mathjax变量决定是否加载MathJax数学公式js -->
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- 
+     Because of the native support for backtick-style fenced code blocks 
+     right within the Markdown is landed in Github Pages, 
+     From V1.6, There is no need for Highlight.js, 
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0  
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/    
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("http://joelrh.xyz/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("https://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+
+
+
+<!-- Baidu Tongji -->
+
+
+<!-- Side Catalog -->
+
+
+
+
+
+<!-- Image to hack wechat -->
+<img src="http://joelrh.xyz/img/icon_wechat.png" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>
