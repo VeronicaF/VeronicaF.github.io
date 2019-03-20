@@ -13,11 +13,11 @@
 
     <title>
         
-          local-proxy-server - Joel的博客 | Joel&#39;s Blog
+          从零开始跑起一个react项目吧 - Joel的博客 | Joel&#39;s Blog
         
     </title>
 
-    <link rel="canonical" href="http://joelrh.xyz/2018/03/10/local-proxy-server/">
+    <link rel="canonical" href="http://joelrh.xyz/2019/03/17/react-booter/">
 
     <!-- Bootstrap Core CSS -->
     <link rel="stylesheet" href="/css/bootstrap.min.css">
@@ -165,12 +165,14 @@
                 <div class="post-heading">
                     <div class="tags">
                         
+                          <a class="tag" href="/tags/#js react" title="js react">js react</a>
+                        
                     </div>
-                    <h1>local-proxy-server</h1>
+                    <h1>从零开始跑起一个react项目吧</h1>
                     <h2 class="subheading"></h2>
                     <span class="meta">
                         Posted by Joel on
-                        March 10,2018
+                        March 17,2019
                     </span>
                 </div>
             </div>
@@ -189,59 +191,21 @@
                 col-md-10 col-md-offset-1
                 post-container">
 
-                <h3 id="proxy-local启动流程"><a href="#proxy-local启动流程" class="headerlink" title="proxy:local启动流程"></a>proxy:local启动流程</h3><ol>
-<li>前端：koa服务器，proxy转发请求到8090端口</li>
-<li>8090开启一个nginx服务器，作为反向代理服务器，根据路径将请求转发到不同端口，例：8080</li>
-<li>8080端口运行TOMCAT服务，返回资源。</li>
-</ol>
-<h3 id="java注解"><a href="#java注解" class="headerlink" title="java注解"></a>java注解</h3><h4 id="元注解"><a href="#元注解" class="headerlink" title="元注解"></a>元注解</h4><p>元注解就是用来注解注解的注解（绕口令）</p>
-<h5 id="Retention"><a href="#Retention" class="headerlink" title="Retention"></a>Retention</h5><p>它的取值如下：</p>
-<ul>
-<li>RetentionPolicy.SOURCE 注解只在源码阶段保留，在编译器进行编译时它将被丢弃忽视。</li>
-<li>RetentionPolicy.CLASS 注解只被保留到编译进行的时候，它并不会被加载到 JVM 中。</li>
-<li>RetentionPolicy.RUNTIME 注解可以保留到程序运行的时候，它会被加载进入到 JVM 中，所以在程序运行时可以获取到它们。</li>
-</ul>
-<h5 id="Documented"><a href="#Documented" class="headerlink" title="Documented"></a>Documented</h5><p>能否将注解中的内容包含到javadoc</p>
-<h5 id="Target"><a href="#Target" class="headerlink" title="Target"></a>Target</h5><p>指定了注解运用的地方。</p>
-<ul>
-<li>ElementType.ANNOTATION_TYPE 可以给一个注解进行注解</li>
-<li>ElementType.CONSTRUCTOR 可以给构造方法进行注解</li>
-<li>ElementType.FIELD 可以给属性进行注解</li>
-<li>ElementType.LOCAL_VARIABLE 可以给局部变量进行注解</li>
-<li>ElementType.METHOD 可以给方法进行注解</li>
-<li>ElementType.PACKAGE 可以给一个包进行注解</li>
-<li>ElementType.PARAMETER 可以给一个方法内的参数进行注解</li>
-<li>ElementType.TYPE 可以给一个类型进行注解，比如类、接口、枚举</li>
-</ul>
-<h5 id="Inherited"><a href="#Inherited" class="headerlink" title="Inherited"></a>Inherited</h5><p>子类能否继承父类的注解</p>
-<h5 id="Repeatable"><a href="#Repeatable" class="headerlink" title="Repeatable"></a>Repeatable</h5><p>重复使用注解</p>
-<h4 id="注解的属性"><a href="#注解的属性" class="headerlink" title="注解的属性"></a>注解的属性</h4><p>注解的属性也叫做成员变量。注解只有成员变量，没有方法。注解的成员变量在注解的定义中以“无形参的方法”形式来声明，其方法名定义了该成员变量的名字，其返回值定义了该成员变量的类型。</p>
-<p>默认值由default指定</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="meta">@interface</span> TestAnnotation &#123;</span><br><span class="line">    <span class="function">String <span class="title">name</span><span class="params">()</span> <span class="keyword">default</span> "jack"</span>;</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">id</span><span class="params">()</span> <span class="keyword">default</span> 1</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>如果仅有一个名为<code>value</code>的属性，赋值时可以直接写。</p>
-<p>使用方法</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@TestAnnotation</span>(name=<span class="string">"jack"</span>, id=<span class="number">1</span>)</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Test</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>空注解可以省略括号。</p>
-<h3 id="DAO是什么"><a href="#DAO是什么" class="headerlink" title="DAO是什么"></a>DAO是什么</h3><p>Data Access Object，数据访问对象。</p>
-<p>是为某种类型的数据库或其他持久性机制提供一个抽象接口的对象。通过映射应用程序对持久层的调用，DAO提供一些特定的数据操作，而无需暴露数据库细节。</p>
-<h3 id="Service"><a href="#Service" class="headerlink" title="Service"></a>Service</h3><p>Service，我们有时候会需要一些相对独立，与业务系统没啥关系的功能。但不是所有的功能都可以做成一个服务，服务是一个相对独立的功能模块，完成一些指定的工作，这些工作高度抽象和通用。一个典型的服务像是数据库服务、缓存服务、文件存储服务、身份验证服务、消息队列服务等。</p>
-<p>服务的特征：抽象、独立、稳定。</p>
-<h3 id="Controller"><a href="#Controller" class="headerlink" title="Controller"></a>Controller</h3><p>Controller业务流程</p>
-<h3 id="idea坑爹，resource不build"><a href="#idea坑爹，resource不build" class="headerlink" title="idea坑爹，resource不build"></a>idea坑爹，resource不build</h3><p><a href="https://my.oschina.net/wangdaoliang/blog/811678" target="_blank" rel="noopener">解决方案</a></p>
-<h3 id="bean？"><a href="#bean？" class="headerlink" title="bean？"></a>bean？</h3><p>一种符合规范的java类</p>
-<ol>
-<li><p>这个类需要是public 的， 然后需要有个无参数的构造函数</p>
-</li>
-<li><p>这个类的属性应该是private 的， 通过setXXX()和getXXX()来访问</p>
-</li>
-<li><p>我们得提供一个所谓的自省/反射机制， 这样能在运行时查看java bean 的各种信息“</p>
-</li>
-<li><p>这个类应该是可以序列化的， 即可以把bean的状态保存的硬盘上， 以便以后来恢复。 </p>
-</li>
-</ol>
-<h4 id="Autowired"><a href="#Autowired" class="headerlink" title="@Autowired"></a>@Autowired</h4><p>自动注入，在上下文中查找符合的bean并注入java</p>
-<h3 id="sql"><a href="#sql" class="headerlink" title="sql"></a>sql</h3><h4 id="select"><a href="#select" class="headerlink" title="select"></a>select</h4><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> [<span class="keyword">DISTINCT</span>] &lt;列名&gt;, ...</span><br><span class="line">    <span class="keyword">FROM</span> &lt;表名&gt;</span><br><span class="line">    <span class="keyword">WHERE</span> &lt;条件表达式&gt;;</span><br></pre></td></tr></table></figure>
-<h4 id="update"><a href="#update" class="headerlink" title="update"></a>update</h4><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">UPDATE</span> &lt;表名&gt;</span><br><span class="line">    <span class="keyword">SET</span> (&lt;列名&gt;,...) = (&lt;表达式&gt;,...)</span><br><span class="line">    <span class="keyword">WHERE</span> &lt;条件表达式&gt;;</span><br></pre></td></tr></table></figure>
+                <h2 id="首先"><a href="#首先" class="headerlink" title="首先"></a>首先</h2><p>首先我们需要明确，react是需要进行编译的，也就是说需要babel这类的工具，那么干脆用webpack打包处理，顺便加上热重载。</p>
+<h2 id="webpack"><a href="#webpack" class="headerlink" title="webpack"></a>webpack</h2><p>webpack会从入口文件开始，完成收集依赖、模块化、编译等一系列工作，并输出一个js文件。</p>
+<p>而我们的页面一开始只是一个空的HTML文件，通过script标签引入打包好的js文件，通过js生成DOM。</p>
+<p>因此，需要一个<code>index.js</code>作为入口文件和一个<code>index.html</code>文件。</p>
+<h3 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h3><p>对着文档弄一个<code>webpack.config.js</code>，如下</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> path = <span class="built_in">require</span>(<span class="string">"path"</span>)</span><br><span class="line"></span><br><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">    <span class="comment">// 入口</span></span><br><span class="line">    entry: <span class="string">'./index.js'</span>,</span><br><span class="line">    <span class="comment">// 输出</span></span><br><span class="line">    output: &#123;</span><br><span class="line">        path: path.resolve(__dirname, <span class="string">'dist'</span>),</span><br><span class="line">        filename: <span class="string">'bundle.js'</span>,</span><br><span class="line">    &#125;,</span><br><span class="line">    mode: <span class="string">'development'</span>,</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="react"><a href="#react" class="headerlink" title="react"></a>react</h2><p>此时我们还跟<code>react</code>半毛钱关系没有，先写个组件</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> React <span class="keyword">from</span> <span class="string">'react'</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> ReactDom <span class="keyword">from</span> <span class="string">'react-dom'</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> App = <span class="function"><span class="params">()</span> =&gt;</span> (</span><br><span class="line">    &lt;div&gt;hello world&lt;<span class="regexp">/div&gt;</span></span><br><span class="line"><span class="regexp">)</span></span><br><span class="line"><span class="regexp"></span></span><br><span class="line"><span class="regexp">ReactDom.render(</span></span><br><span class="line"><span class="regexp">    &lt;App/</span>&gt;,</span><br><span class="line">    <span class="built_in">document</span>.body,</span><br><span class="line">    () =&gt; <span class="built_in">console</span>.log(<span class="string">'react loaded!'</span>)</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+<p>此时还是不能运行的，因为webpack不知道如何处理<code>jsx</code></p>
+<h3 id="babel"><a href="#babel" class="headerlink" title="babel"></a>babel</h3><p>添加<code>.babelrc</code>，用babel将jsx编译为js对象</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// .babelrc</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="string">"presets"</span>: [</span><br><span class="line">        <span class="string">"@babel/react"</span>,</span><br><span class="line">        <span class="string">"@babel/env"</span></span><br><span class="line">    ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>添加webpack的loader，所谓loader，就是根据你所写的正则匹配文件，然后用指定的loader处理</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">...</span><br><span class="line"><span class="built_in">module</span>: &#123;</span><br><span class="line">        rules: [</span><br><span class="line">            &#123;</span><br><span class="line">                exclude: path.resolve(__dirname, <span class="string">'node_modules'</span>),</span><br><span class="line">                test: <span class="regexp">/\.(js|jsx)$/</span>,</span><br><span class="line">                use: <span class="string">'babel-loader'</span>,</span><br><span class="line">            &#125;</span><br><span class="line">        ],</span><br><span class="line">    &#125;,</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+<p>此时可以跑起来了。</p>
+<p>## </p>
 <hr>
 <p>EOF</p>
 
@@ -259,30 +223,26 @@
                             
                             
                         
+                    
+                    
+                        
                             
-                                
-                    
-                    
+                            
+                        
+                            
+                            
                         
                             
                                 
                     
                     <!-- 定义临时变量过滤隐藏的page end -->
                     
-                        <li class="previous">
-                            <a href="/2018/04/19/线性表的顺序存储结构/" data-toggle="tooltip" data-placement="top" title="线性表">
-                                Previous
-                                <br>
-                                <span>线性表</span>
-                            </a>
-                        </li>
-                    
                     
                         <li class="next">
-                            <a href="/2018/03/10/学习java！/" data-toggle="tooltip" data-placement="top" title="学java！！！">
+                            <a href="/2018/11/14/对着屏幕的社交/" data-toggle="tooltip" data-placement="top" title="对着屏幕的社交">
                                 Next Post
                                 <br>
-                                <span>学java！！！</span>
+                                <span>对着屏幕的社交</span>
                             </a>
                         </li>
                     
@@ -316,6 +276,8 @@
                     <h5><a href="/tags/">FEATURED TAGS</a></h5>
                     <div class="tags">
                        
+                          <a class="tag" href="/tags/#js react" title="js react">js react</a>
+                        
                     </div>
                 </section>
                 
@@ -342,8 +304,8 @@
 <script type="text/javascript">
     /* * * CONFIGURATION VARIABLES * * */
     var disqus_shortname = "joelrh-xyz";
-    var disqus_identifier = "http://joelrh.xyz/2018/03/10/local-proxy-server/";
-    var disqus_url = "http://joelrh.xyz/2018/03/10/local-proxy-server/";
+    var disqus_identifier = "http://joelrh.xyz/2019/03/17/react-booter/";
+    var disqus_url = "http://joelrh.xyz/2019/03/17/react-booter/";
 
     (function() {
         var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
