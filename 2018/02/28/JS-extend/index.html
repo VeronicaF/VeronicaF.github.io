@@ -90,14 +90,14 @@
 
                         
                         <li>
-                            <a href="/about/">About</a>
+                            <a href="/archives/">Archives</a>
                         </li>
                         
                     
 
                         
                         <li>
-                            <a href="/archives/">Archives</a>
+                            <a href="/about/">About</a>
                         </li>
                         
                     
@@ -614,6 +614,42 @@
             }
         })
     })()
+</script>
+
+<!-- secret --> >
+<script>
+
+const diarys = document.querySelectorAll('#DIARY')
+const parents = []
+diarys.forEach(tag => {
+    const parent = tag.parentElement
+    parents.push(tag.parentElement)
+    parent.removeChild(tag)
+})
+const UP = 38, DOWN = 40, LEFT = 37, RIGHT = 39, a = 65, b = 66
+
+let keys = []
+let isTyping = false, timer, show = false
+const pass = [UP, UP, DOWN, DOWN, LEFT, RIGHT, LEFT, RIGHT, a, b]
+document.addEventListener('keydown', e => {
+    if (show) {
+        return
+    }
+    isTyping = true
+    const { keyCode } = e
+    keys.push(keyCode)
+    timer && clearTimeout(timer)
+    timer = setTimeout(() => {
+        isTyping = false
+        show = keys.length === 10 && keys.every((_, index) => keys[index] === pass[index])
+        console.log(show)
+        if (show) {
+            parents.forEach((p, index) => p.appendChild(diarys[index]))
+        }
+        !isTyping && (keys = [])
+    }, 1000)
+})
+
 </script>
 
 <!-- 根据页面mathjax变量决定是否加载MathJax数学公式js -->
